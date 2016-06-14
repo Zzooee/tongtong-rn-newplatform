@@ -13,3 +13,8 @@ results
 
 npm-debug.log
 node_modules
+.idea/misc.xml
+.idea/modules.xml
+.idea/tongtong-rn-newplatform.iml
+.idea/workspace.xml
+.idea/vcs.xml
