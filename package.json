@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "^1.2.1",
+    "autoprefixer-loader": "^3.2.0",
     "history": "^2.0.0",
     "jquery": "^2.1.4",
     "lodash": "^4.13.1",
@@ -23,6 +24,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
+    "simditor": "^2.3.6",
     "superagent": "^2.0.0"
   },
   "devDependencies": {
