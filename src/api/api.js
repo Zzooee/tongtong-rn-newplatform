@@ -24,7 +24,7 @@ class _Api {
             this[method] = (path, {params, data} = {}) => new Promise((resolve, reject) => {
                 var request ;
                 if(method == 'postForm'){
-                    request = superagent['post']('http://123.59.146.243:8080'+path).type('form').withCredentials();
+                    request = superagent['post']('http://123.59.146.243:8088'+path).type('form').withCredentials();
                 }else{
                     request = superagent[method](this.opts.baseURI+path);
                 }

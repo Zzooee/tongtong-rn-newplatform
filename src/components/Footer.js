@@ -9,8 +9,7 @@ var styles = {
     backgroundColor: '#fff',
     width: document.body.offsetWidth - 224,
     position: 'absolute',
-    bottom: 0,
-    left: 224
+    bottom: 0
 }
 
 export default class Footer extends React.Component {
@@ -21,7 +20,7 @@ export default class Footer extends React.Component {
     render() {
 
         return (
-            <div style={styles}>
+            <div style={styles} className='footer'>
                 上海童桌信息科技有限公司 @ 2015-2020
             </div>
         )

@@ -1,126 +1,52 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import ECharts from 'react-echarts';
 import Simditor from 'simditor';
 import $ from 'jquery';
 import superagent from 'superagent';
 
-var data1 = [];
-var data2 = [];
-var data3 = [];
+import Header from '../components/Header'
+import Sidebar from '../components/Sidebar'
+import Footer from '../components/Footer'
 
-var random = function (max) {
-    return (Math.random() * max).toFixed(3);
-};
+import {fetchProfile, logout} from '../actions/user';
+import {getAllMenu} from '../actions/menu'
 
-for (var i = 0; i < 500; i++) {
-    data1.push([random(15), random(10), random(1)]);
-    data2.push([random(10), random(10), random(1)]);
-    data3.push([random(15), random(10), random(1)]);
-}
 
-const option = {
-    animation: false,
-    legend: {
-        data: ['scatter', 'scatter2', 'scatter3']
-    },
-    tooltip: {
-    },
-    xAxis: {
-        type: 'value',
-        min: 'dataMin',
-        max: 'dataMax',
-        splitLine: {
-            show: true
-        }
-    },
-    yAxis: {
-        type: 'value',
-        min: 'dataMin',
-        max: 'dataMax',
-        splitLine: {
-            show: true
-        }
-    },
-    dataZoom: [
-        {
-            type: 'slider',
-            show: true,
-            xAxisIndex: [0],
-            start: 1,
-            end: 35
-        },
-        {
-            type: 'slider',
-            show: true,
-            yAxisIndex: [0],
-            left: '93%',
-            start: 29,
-            end: 36
-        },
-        {
-            type: 'inside',
-            xAxisIndex: [0],
-            start: 1,
-            end: 35
-        },
-        {
-            type: 'inside',
-            yAxisIndex: [0],
-            start: 29,
-            end: 36
-        }
-    ],
-    series: [
-        {
-            name: 'scatter',
-            type: 'scatter',
-            itemStyle: {
-                normal: {
-                    opacity: 0.8
-                }
-            },
-            symbolSize: function (val) {
-                return val[2] * 40;
-            },
-            data: data1
-        },
-        {
-            name: 'scatter2',
-            type: 'scatter',
-            itemStyle: {
-                normal: {
-                    opacity: 0.8
-                }
-            },
-            symbolSize: function (val) {
-                return val[2] * 40;
-            },
-            data: data2
-        },
-        {
-            name: 'scatter3',
-            type: 'scatter',
-            itemStyle: {
-                normal: {
-                    opacity: 0.8,
-                }
-            },
-            symbolSize: function (val) {
-                return val[2] * 40;
-            },
-            data: data3
-        }
-    ]
-}
-
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor() {
         super()
     }
 
     showparams(params){
         console.log(params)
+    }
+
+    componentWillMount() {
+        const {actions} = this.props;
+        actions.fetchProfile();
+        actions.getAllMenu();
+    }
+
+    componentDidUpdate() {
+        if(menuErrors) {
+            this.context.router.replace('/login');
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const isLoggingOut = nextProps.user.loggingOut
+        const user = nextProps.user.user
+
+        if (!isLoggingOut && !user) {
+            notification.success({
+                message: '您已注销',
+                duration: 2
+            });
+            this.context.router.replace('/login');
+        }
     }
 
     componentDidMount() {
@@ -139,10 +65,66 @@ export default class Home extends React.Component {
 
     render() {
 
+        const {user, actions, location, items} = this.props;
+
+        var styles = {
+            antlayoutaside: {
+                position: 'relative',
+                minHeight: '100%',
+                backgroundColor: '#fff'
+            },
+            antlayoutmain: {
+                minHeight: document.body.offsetHeight - 88
+            },
+            antlayoutcontainer: {
+                paddingBottom: 80,
+                margin: '24px 16px 0 16px'
+            },
+            antlayoutcontent: {
+                backgroundColor: '#fff',
+                padding: '24px'
+            }
+        }
+
         return (
-            <div>
-                <textarea ref='textarea' />
+            <div style={styles.antlayoutaside}>
+                <Header user={user} actions={actions}/>
+                <div className='moz-layout home' style={styles.antlayoutmain}>
+                    <div style={styles.antlayoutcontainer}>
+                        <div style={styles.antlayoutcontent}>
+                            <div>
+                                <textarea ref='textarea' />
+                            </div>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
             </div>
         )
     }
 }
+
+Home.propTypes = {
+    user: PropTypes.object,
+};
+
+Home.contextTypes = {
+    history: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => {
+    const {user} = state;
+    return {
+        user: user ? user : null,
+        items: state.menu.items,
+        menuErrors: state.menu.menuErrors
+    };
+};
+
+function mapDispatchToProps(dispatch) {
+    return {actions: bindActionCreators({fetchProfile, logout, getAllMenu}, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

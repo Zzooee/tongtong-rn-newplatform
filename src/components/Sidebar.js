@@ -136,6 +136,9 @@ class Sidebar extends React.Component {
         } else if (this.props.location.pathname === "/StatList"){
             subpath = 'sub51',
             menupath = 'menu52'
+        } else if (this.props.location.pathname === "/OrganizationList"){
+            subpath = 'sub1',
+            menupath = 'menu59'
         }
 
         // var availItems = [];

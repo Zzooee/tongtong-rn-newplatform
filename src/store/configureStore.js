@@ -5,10 +5,15 @@ import promiseMiddleware from '../middlewares/promiseMiddleware'
 
 import user from '../reducers/user';
 import menu from '../reducers/menu';
+import admin from '../reducers/admin';
+import rolelist from '../reducers/rolelist';
+import resource from '../reducers/resource';
+import keyword from '../reducers/keyword';
+import organization from '../reducers/organization'
 
 import DevTools from '../utils/DevTools';
 
-const reducer = combineReducers({user, menu});
+const reducer = combineReducers({user, menu, admin, rolelist, resource, keyword, organization});
 
 const enhancer = compose(
     // Middleware you want to use in development:

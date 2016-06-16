@@ -4,6 +4,7 @@ import {logout, changePwd, resetTrigger} from '../actions/user'
 import authUtils from '../utils/auth';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {Link} from 'react-router';
 
 const SubMenu = Menu.SubMenu;
 const createForm = Form.create;
@@ -113,20 +114,32 @@ class Header extends React.Component {
             ],
         });
 
+        const menu = this.props.items.map((item) => {
+            return (
+                <SubMenu
+                    key={'sub'+item.id}
+                    title={<span><Icon type={item.iconType} />{item.name}</span>}
+                >
+                    {item.childMenus.map((node) => {
+                        return (
+                            <Menu.Item key={'menu'+node.id}>
+                                <Link to={node.routeUrl}><Icon type={node.iconType} />{node.name}</Link>
+                            </Menu.Item>
+                        )
+                    })}
+                </SubMenu>
+            )
+        });
+
         return (
             <div style={styles.header}>
                 <div style={styles.banner}><img src='../imgs/favicon.ico' style={styles.ico}/>普陀区幼儿健康与安全管理平台</div>
                 <Menu className="header-menu" mode="horizontal" onClick={this.menuClickHandler.bind(this)}>
                     <SubMenu title={<span><Icon type="user" />{user.user}</span>} >
                         <Menu.Item style={styles.item} key="changepwd">修改密码</Menu.Item>
-                        <Menu.Divider />
                         <Menu.Item style={styles.item} key="logout">注销</Menu.Item>
                     </SubMenu>
-                    <SubMenu title={<span><Icon type="apple" />导航二</span>} >
-                        <Menu.Item style={styles.item} key="aaa">aaa</Menu.Item>
-                        <Menu.Divider />
-                        <Menu.Item style={styles.item} key="bbb">bbb</Menu.Item>
-                    </SubMenu>
+                    {menu}
                 </Menu>
                 <Modal title="修改密码" visible={this.state.changepwdvisible} onOk={this.submitChange.bind(this)} onCancel={this.hideChangeModal.bind(this)} okText="提交" cancelText="取消">
                     <Form horizontal form={this.props.form} style={{marginTop: 20}}>
@@ -169,7 +182,8 @@ Header = Form.create()(Header);
 function mapStateToProps(state) {
 
     return {
-        triggerStateChange: state.user.triggerStateChange
+        triggerStateChange: state.user.triggerStateChange,
+        items: state.menu.items
     }
 }
 

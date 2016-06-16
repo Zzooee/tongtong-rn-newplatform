@@ -9,6 +9,10 @@ import configureStore from './store/configureStore';
 import App from './containers/App';
 import Home from './containers/Home';
 import Login from './containers/Login';
+import AdminList from './containers/AdminList';
+import ResourceList from './containers/ResourceList';
+import RoleList from './containers/RoleList';
+import OrganizationList from './containers/OrganizationList';
 
 import {getCookie} from './utils/index';
 import authUtils from './utils/auth';
@@ -34,8 +38,12 @@ ReactDOM.render(
                 <Route path="/" onEnter={validate}>
                     <IndexRedirect to="home"/>
                     <Route component={App}>
-                        <Route path="home" component={Home}/>
+                        <Route path="adminList" component={AdminList}/>
+                        <Route path="resourcelist" component={ResourceList}/>
+                        <Route path="rolelist" component={RoleList}/>
+                        <Route path="organizationlist" component={OrganizationList}/>
                     </Route>
+                    <Route path="home" component={Home}/>
                     <Route path="login" component={Login}/>
                 </Route>
             </Router>
