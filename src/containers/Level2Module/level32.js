@@ -2,13 +2,13 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon, Radio} from 'antd'
-import {getAllResource, resetResourceList, addResource, editResource, resetTrigger, getAllResourceByType} from '../actions/resource'
-import {updateKeyword} from '../actions/keyword';
-import {getOrganizationList} from '../actions/organization';
-import {getAllMenu} from '../actions/menu'
-import authUtils from '../utils/auth';
+import {getAllResource, resetResourceList, addResource, editResource, resetTrigger, getAllResourceByType} from '../../actions/AdminModule/resource'
+import {updateKeyword} from '../../actions/keyword';
+import {getOrganizationList} from '../../actions/AdminModule/organization';
+import {getAllMenu} from '../../actions/menu'
+import authUtils from '../../utils/auth';
 import classNames from 'classnames';
-import api from '../api';
+import api from '../../api';
 const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
 
@@ -21,7 +21,7 @@ var styles = {
   }
 }
 
-class ResourceList extends React.Component {
+class level32 extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -330,6 +330,14 @@ class ResourceList extends React.Component {
             dataIndex: 'name',
             key: 'name',
         }, {
+            title: '资源ID',
+            dataIndex: 'id',
+            key: 'id',
+        }, {
+            title: '父ID',
+            dataIndex: 'parentid',
+            key: 'parentid',
+        }, {
             title: '资源类型',
             dataIndex: 'type',
             key: 'type',
@@ -405,6 +413,8 @@ class ResourceList extends React.Component {
         {
             data.push({
                 key: this.props.resourceItems[i].id,
+                id: this.props.resourceItems[i].id,
+                parentid: this.props.resourceItems[i].parentId,
                 name: this.props.resourceItems[i].name,
                 type: this.props.resourceItems[i].type,
                 url: this.props.resourceItems[i].url,
@@ -691,7 +701,7 @@ class ResourceList extends React.Component {
     }
 }
 
-ResourceList = Form.create()(ResourceList);
+level32 = Form.create()(level32);
 
 function mapStateToProps(state) {
 
@@ -718,4 +728,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceList)
+export default connect(mapStateToProps, mapDispatchToProps)(level32)

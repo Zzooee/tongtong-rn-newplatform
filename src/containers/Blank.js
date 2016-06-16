@@ -8,13 +8,13 @@ import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import {fetchProfile, logout} from '../actions/user';
-import {getAllMenu, updateNavPath, resetNavPath} from '../actions/menu'
+import {getAllMenu, updateNavPath} from '../actions/menu'
 
 import 'antd/dist/antd.less';
 import 'simditor/styles/simditor.css';
 import '../main.less';
 
-class App extends React.Component {
+class Blank extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -44,15 +44,7 @@ class App extends React.Component {
             return (
                 item.childMenus.map((node) => {
                     return (
-                        node.childMenus.map((third) => {
-                            return (
-                                third.childMenus.map((fourth) => {
-                                  return (
-                                      {routeUrl: fourth.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id, thirdpath: 'thd'+third.id, fourthpath: 'frh'+fourth.id}
-                                  )
-                                })
-                            )
-                        })
+                        {routeUrl: node.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id}
                     )
                 })
             )
@@ -61,18 +53,15 @@ class App extends React.Component {
         var cleanarr = []
         for(let i=0 ; i < tmparr.length ; i++){
             for (let j=0 ; j < tmparr[i].length; j++){
-                for (let k=0 ; k < tmparr[i][j].length; k++) {
-                    for (let l=0 ; l < tmparr[i][j][k].length; l++) {
-                        cleanarr.push(tmparr[i][j][k][l])
-                    }
-                }
+                cleanarr.push(tmparr[i][j])
             }
         }
 
         var tmppath = cleanarr.filter(item => item.routeUrl == this.props.location.pathname)
         if(tmppath[0]){
-            actions.updateNavPath([tmppath[0].fourthpath,tmppath[0].thirdpath,tmppath[0].menupath,tmppath[0].subpath], tmppath[0].fourthpath);
+            actions.updateNavPath([tmppath[0].menupath,tmppath[0].subpath], tmppath[0].menupath);
         }
+
     }
 
     render() {
@@ -85,7 +74,6 @@ class App extends React.Component {
                 backgroundColor: '#fff'
             },
             antlayoutmain: {
-                marginLeft: 200,
                 minHeight: document.body.offsetHeight - 88
             },
             antlayoutcontainer: {
@@ -101,8 +89,7 @@ class App extends React.Component {
         return (
             <div style={styles.antlayoutaside}>
                 <Header user={user} actions={actions}/>
-                <Sidebar location={location} items={items}/>
-                <div className='moz-layout' style={styles.antlayoutmain}>
+                <div className='moz-layout blank' style={styles.antlayoutmain}>
                     <NavPath />
                     <div style={styles.antlayoutcontainer}>
                         <div style={styles.antlayoutcontent}>
@@ -116,12 +103,12 @@ class App extends React.Component {
     }
 }
 
-App.propTypes = {
+Blank.propTypes = {
     user: PropTypes.object,
     children: PropTypes.node.isRequired,
 };
 
-App.contextTypes = {
+Blank.contextTypes = {
     history: PropTypes.object.isRequired,
     router: PropTypes.object.isRequired,
     store: PropTypes.object.isRequired
@@ -139,4 +126,4 @@ function mapDispatchToProps(dispatch) {
     return {actions: bindActionCreators({fetchProfile, logout, getAllMenu, updateNavPath}, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Blank);

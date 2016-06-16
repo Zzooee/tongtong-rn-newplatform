@@ -39,42 +39,6 @@ class Sidebar extends React.Component {
         super(props)
     }
 
-    componentDidUpdate() {
-        const {menuErrors} = this.props;
-        if (menuErrors !== null){
-            console.log('menuErrors2==='+menuErrors)
-            this.context.router.replace('/login');
-
-            notification.error({
-                message: '加载遇到问题',
-                description: menuErrors
-            });
-        }
-
-        var tmparr = this.props.items.map((item) => {
-            return (
-                item.childMenus.map((node) => {
-                    return (
-                        {routeUrl: node.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id}
-                    )
-                })
-            )
-        })
-
-        var cleanarr = []
-        for(let i=0 ; i < tmparr.length ; i++){
-            for (let j=0 ; j < tmparr[i].length; j++){
-                cleanarr.push(tmparr[i][j])
-            }
-        }
-
-        var tmppath = cleanarr.filter(item => item.routeUrl == this.props.location.pathname)
-        if(tmppath[0]){
-            this.props.updateNavPath([tmppath[0].menupath,tmppath[0].subpath], tmppath[0].menupath);
-        }
-
-    }
-
     componentWillMount() {
         const {menuErrors, items} = this.props;
         if (menuErrors !== null){
@@ -88,6 +52,10 @@ class Sidebar extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+
+    }
+
     menuClickHandle(item) {
         this.props.updateNavPath(item.keyPath, item.key);
     }
@@ -96,49 +64,20 @@ class Sidebar extends React.Component {
         const {items} = this.props
         var menupath = ''
         var subpath = ''
+        var menuhead = ''
 
-        if(this.props.location.pathname === "/AdminList"){
-            subpath = 'sub1',
-            menupath = 'menu3'
-        } else if (this.props.location.pathname === "/ResourceList"){
-            subpath = 'sub1',
-            menupath = 'menu4'
-        } else if (this.props.location.pathname === "/RoleList"){
-            subpath = 'sub1',
-            menupath = 'menu5'
-        } else if (this.props.location.pathname === "/bizAllChildList"){
-            subpath = 'sub45',
-            menupath = 'menu46'
-        } else if (this.props.location.pathname === "/bizServerList"){
-            subpath = 'sub45',
-            menupath = 'menu47'
-        } else if (this.props.location.pathname === "/ArticleList"){
-            subpath = 'sub2',
-            menupath = 'menu14'
-        } else if (this.props.location.pathname === "/WineusList"){
-            subpath = 'sub2',
-            menupath = 'menu15'
-        } else if (this.props.location.pathname === "/UserList"){
-            subpath = 'sub16',
-            menupath = 'menu18'
-        } else if (this.props.location.pathname === "/BoundedChild"){
-            subpath = 'sub16',
-            menupath = 'menu48'
-        } else if (this.props.location.pathname === "/PointsUserList"){
-            subpath = 'sub40',
-            menupath = 'menu42'
-        } else if (this.props.location.pathname === "/PointsTypeList"){
-            subpath = 'sub40',
-            menupath = 'menu43'
-        } else if (this.props.location.pathname === "/bizAllTeacherList"){
-            subpath = 'sub45',
-            menupath = 'menu50'
-        } else if (this.props.location.pathname === "/StatList"){
-            subpath = 'sub51',
-            menupath = 'menu52'
-        } else if (this.props.location.pathname === "/OrganizationList"){
-            subpath = 'sub1',
-            menupath = 'menu59'
+        if (this.props.location.pathname === "/level2/level4"){
+            subpath = 'thd62',
+            menupath = 'frh63',
+            menuhead = 60
+        } else if (this.props.location.pathname === "/level22/level3"){
+            subpath = 'thd232',
+            menupath = '',
+            menuhead = 187
+        } else if (this.props.location.pathname === "/level2/level32"){
+            subpath = 'thd233',
+            menupath = '',
+            menuhead = 60
         }
 
         // var availItems = [];
@@ -149,22 +88,35 @@ class Sidebar extends React.Component {
         //     }
         // }
 
-        const menu = this.props.items.map((item) => {
-            return (
-                <SubMenu
-                    key={'sub'+item.id}
-                    title={<span><Icon type={item.iconType} />{item.name}</span>}
-                >
-                    {item.childMenus.map((node) => {
-                        return (
-                            <Menu.Item key={'menu'+node.id}>
-                                <Link to={node.routeUrl}><Icon type={node.iconType} />{node.name}</Link>
-                            </Menu.Item>
-                        )
-                    })}
-                </SubMenu>
-            )
-        });
+        var menuset =[]
+        for (let i=0; i<this.props.items.length; i++) {
+            var tmparrrr = this.props.items[i].childMenus.filter(node => node.id == menuhead)
+            menuset.push(tmparrrr[0])
+            var menu = menuset[0].childMenus.map((node) => {
+                if (node.childMenus.length == 0) {
+                    return (
+                        <Menu.Item key={'thd'+node.id}>
+                            <Link to={node.routeUrl}><Icon type={node.iconType} />{node.name}</Link>
+                        </Menu.Item>
+                    )
+                } else {
+                    return (
+                        <SubMenu
+                            key={'thd'+node.id}
+                            title={<span><Icon type={node.iconType} />{node.name}</span>}
+                        >
+                            {node.childMenus.map((edon) => {
+                                return (
+                                    <Menu.Item key={'frh'+edon.id}>
+                                        <Link to={edon.routeUrl}><Icon type={edon.iconType} />{edon.name}</Link>
+                                    </Menu.Item>
+                                )
+                            })}
+                        </SubMenu>
+                    )
+                }
+            })
+        }
 
         return (
             <aside style={styles.sider} className="side-bar">

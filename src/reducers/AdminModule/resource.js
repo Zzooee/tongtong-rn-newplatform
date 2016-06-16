@@ -11,7 +11,7 @@ import {
     RESET_TRIGGER,
     GET_ALL_RESOURCE_BY_TYPE_SUCCESS,
     GET_ALL_RESOURCE_BY_TYPE_ERROR
-} from '../actions/resource';
+} from '../../actions/AdminModule/resource';
 
 const initialState = {
     resourceItems: [],

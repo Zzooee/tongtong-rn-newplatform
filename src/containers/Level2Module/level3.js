@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Table, Button, Input, Form, Modal, Popconfirm, message, Icon, Radio, Tree, Cascader} from 'antd'
-import {getRoleList, resetRoleList, addRole, editRole, resetTrigger, authRole} from '../actions/rolelist'
-import {updateKeyword} from '../actions/keyword'
+import {getRoleList, resetRoleList, addRole, editRole, resetTrigger, authRole} from '../../actions/AdminModule/rolelist'
+import {updateKeyword} from '../../actions/keyword'
 import classNames from 'classnames';
 const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
@@ -17,7 +17,7 @@ var styles = {
   }
 }
 
-class RoleList extends React.Component {
+class level3 extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -507,7 +507,7 @@ class RoleList extends React.Component {
     }
 }
 
-RoleList = Form.create()(RoleList);
+level3 = Form.create()(level3);
 
 function mapStateToProps(state) {
 
@@ -532,4 +532,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleList)
+export default connect(mapStateToProps, mapDispatchToProps)(level3)

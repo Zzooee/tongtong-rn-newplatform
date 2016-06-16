@@ -27,7 +27,7 @@ export default function menu(state = initialState, action = {}) {
                 menuErrors: '获取管理员列表失败'
             };
         case UPDATE_NAVPATH:
-            let navpath = [], tmpOb, tmpKey, childMenus;
+            let navpath = [], tmpOb, tmpKey, sndchildMenus, thdchildMenus, frhchildMenus;
             if (action.payload.data) {
                 action.payload.data.reverse().map((item)=> {
                     if (item.indexOf('sub') != -1) {
@@ -35,7 +35,7 @@ export default function menu(state = initialState, action = {}) {
                         tmpOb = _.find(state.items, function (o) {
                             return o.id == tmpKey;
                         });
-                        childMenus = tmpOb.childMenus;
+                        sndchildMenus = tmpOb.childMenus;
                         navpath.push({
                             id: tmpOb.id,
                             name: tmpOb.name
@@ -43,15 +43,41 @@ export default function menu(state = initialState, action = {}) {
                     }
                     if (item.indexOf('menu') != -1) {
                         tmpKey = item.replace('menu', '');
-                        if (childMenus) {
-                            tmpOb = _.find(childMenus, function (o) {
+                        if (sndchildMenus) {
+                            tmpOb = _.find(sndchildMenus, function (o) {
                                 return o.id == tmpKey;
                             });
+                            thdchildMenus = tmpOb.childMenus;
+                            navpath.push({
+                                id: tmpOb.id,
+                                name: tmpOb.name
+                            })
                         }
-                        navpath.push({
-                            id: tmpOb.id,
-                            name: tmpOb.name
-                        })
+                    }
+                    if (item.indexOf('thd') != -1) {
+                        tmpKey = item.replace('thd', '');
+                        if (thdchildMenus) {
+                            tmpOb = _.find(thdchildMenus, function (o) {
+                                return o.id == tmpKey;
+                            });
+                            frhchildMenus = tmpOb.childMenus;
+                            navpath.push({
+                                id: tmpOb.id,
+                                name: tmpOb.name
+                            })
+                        }
+                    }
+                    if (item.indexOf('frh') != -1) {
+                        tmpKey = item.replace('frh', '');
+                        if (frhchildMenus) {
+                            tmpOb = _.find(frhchildMenus, function (o) {
+                                return o.id == tmpKey;
+                            });
+                            navpath.push({
+                                id: tmpOb.id,
+                                name: tmpOb.name
+                            })
+                        }
                     }
                 })
             }

@@ -10,7 +10,7 @@ import {
     RESET_TRIGGER,
     AUTH_ROLE_SUCCESS,
     AUTH_ROLE_ERROR
-} from '../actions/rolelist';
+} from '../../actions/AdminModule/rolelist';
 
 const initialState = {
     roleItems: [],
@@ -25,15 +25,15 @@ export default function rolelist(state = initialState, action = {}) {
         case GET_ROLE_LIST_ERROR:
             return Object.assign({}, state, {triggerStateChange: 801});
         case EDIT_ROLE_SUCCESS:
-            return Object.assign({}, state, {triggerStateChange: 103});    
+            return Object.assign({}, state, {triggerStateChange: 103});
         case EDIT_ROLE_ERROR:
-            return Object.assign({}, state, {triggerStateChange: 101}); 
+            return Object.assign({}, state, {triggerStateChange: 101});
         case ADD_ROLE_SUCCESS:
-            return Object.assign({}, state, {triggerStateChange: 303});  
+            return Object.assign({}, state, {triggerStateChange: 303});
         case ADD_ROLE_ERROR:
             return Object.assign({}, state, {triggerStateChange: 301});
         case AUTH_ROLE_SUCCESS:
-            return Object.assign({}, state, {triggerStateChange: 503});  
+            return Object.assign({}, state, {triggerStateChange: 503});
         case AUTH_ROLE_ERROR:
             return Object.assign({}, state, {triggerStateChange: 501});
         case RESET_TRIGGER:

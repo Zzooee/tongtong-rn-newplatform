@@ -8,7 +8,7 @@ import {
     EDIT_ORGANIZATION_SUCCESS,
     EDIT_ORGANIZATION_ERROR,
     RESET_TRIGGER
-} from '../actions/organization';
+} from '../../actions/AdminModule/organization';
 
 const initialState = {
     orgItems: [],

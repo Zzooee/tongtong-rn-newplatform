@@ -1,4 +1,4 @@
-import api from '../api'
+import api from '../../api'
 
 export const GET_ALL_RESOURCE_SUCCESS = 'GET_ALL_RESOURCE_SUCCESS';
 export const GET_ALL_RESOURCE_ERROR = 'GET_ALL_RESOURCE_ERROR'
@@ -11,14 +11,14 @@ export const EDIT_RESOURCE_ERROR = 'EDIT_RESOURCE_ERROR';
 export const GET_ALL_RESOURCE_BY_TYPE_SUCCESS = 'GET_ALL_RESOURCE_BY_TYPE_SUCCESS';
 export const GET_ALL_RESOURCE_BY_TYPE_ERROR = 'GET_ALL_RESOURCE_BY_TYPE_ERROR'
 
-export function getAllResource(page, pagesize, name) {
+export function getAllResource(name) {
     return {
         type: 'GET_ALL_RESOURCE',
         payload: {
             promise: api.postForm('/web/resource/getAdminResource.tj;',{
                 data: {
                     page: 1,
-                    pagesize: 100,
+                    pagesize: 500,
                     name: name
                 }
             })

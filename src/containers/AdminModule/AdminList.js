@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon} from 'antd'
-import {getAllAdmin, resetAdminList, lockAdmin, resetTrigger, editAdmin, addAdmin, deleteAdmin} from '../actions/admin'
-import {getRoleList} from '../actions/rolelist'
-import {updateKeyword} from '../actions/keyword'
+import {getAllAdmin, resetAdminList, lockAdmin, resetTrigger, editAdmin, addAdmin, deleteAdmin} from '../../actions/AdminModule/admin'
+import {getRoleList} from '../../actions/AdminModule/rolelist'
+import {updateKeyword} from '../../actions/keyword'
 
 import classNames from 'classnames';
 const InputGroup = Input.Group;

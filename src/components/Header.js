@@ -118,12 +118,12 @@ class Header extends React.Component {
             return (
                 <SubMenu
                     key={'sub'+item.id}
-                    title={<span><Icon type={item.iconType} />{item.name}</span>}
+                    title={<span>{item.name}</span>}
                 >
                     {item.childMenus.map((node) => {
                         return (
                             <Menu.Item key={'menu'+node.id}>
-                                <Link to={node.routeUrl}><Icon type={node.iconType} />{node.name}</Link>
+                                <Link to={node.routeUrl}>{node.name}</Link>
                             </Menu.Item>
                         )
                     })}

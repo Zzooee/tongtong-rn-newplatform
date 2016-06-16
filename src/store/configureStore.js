@@ -5,11 +5,11 @@ import promiseMiddleware from '../middlewares/promiseMiddleware'
 
 import user from '../reducers/user';
 import menu from '../reducers/menu';
-import admin from '../reducers/admin';
-import rolelist from '../reducers/rolelist';
-import resource from '../reducers/resource';
+import admin from '../reducers/AdminModule/admin';
+import rolelist from '../reducers/AdminModule/rolelist';
+import resource from '../reducers/AdminModule/resource';
 import keyword from '../reducers/keyword';
-import organization from '../reducers/organization'
+import organization from '../reducers/AdminModule/organization'
 
 import DevTools from '../utils/DevTools';
 
