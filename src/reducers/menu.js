@@ -81,10 +81,9 @@ export default function menu(state = initialState, action = {}) {
                     }
                 })
             }
-
-            var indexNum = action.payload.key.replace(/[^0-9]/ig,"");
+            
             return Object.assign({}, state, {
-                currentIndex: indexNum * 1,
+                currentIndex: action.payload.key * 1,
                 navpath: navpath
             });
         default:

@@ -45,13 +45,19 @@ class App extends React.Component {
                 item.childMenus.map((node) => {
                     return (
                         node.childMenus.map((third) => {
-                            return (
-                                third.childMenus.map((fourth) => {
-                                  return (
-                                      {routeUrl: fourth.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id, thirdpath: 'thd'+third.id, fourthpath: 'frh'+fourth.id}
-                                  )
-                                })
-                            )
+                            if (third.childMenus.length > 0) {
+                                return (
+                                    third.childMenus.map((fourth) => {
+                                      return (
+                                          {routeUrl: fourth.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id, thirdpath: 'thd'+third.id, fourthpath: 'frh'+fourth.id}
+                                      )
+                                    })
+                                )
+                            } else {
+                                return (
+                                    {routeUrl: third.routeUrl, menupath: 'menu'+node.id, subpath: 'sub'+item.id, thirdpath: 'thd'+third.id}
+                                )
+                            }
                         })
                     )
                 })
@@ -62,17 +68,27 @@ class App extends React.Component {
         for(let i=0 ; i < tmparr.length ; i++){
             for (let j=0 ; j < tmparr[i].length; j++){
                 for (let k=0 ; k < tmparr[i][j].length; k++) {
-                    for (let l=0 ; l < tmparr[i][j][k].length; l++) {
-                        cleanarr.push(tmparr[i][j][k][l])
-                    }
+                        cleanarr.push(tmparr[i][j][k])
                 }
             }
         }
 
         var tmppath = cleanarr.filter(item => item.routeUrl == this.props.location.pathname)
-        if(tmppath[0]){
-            actions.updateNavPath([tmppath[0].fourthpath,tmppath[0].thirdpath,tmppath[0].menupath,tmppath[0].subpath], tmppath[0].fourthpath);
+        if (tmppath[0]){
+            actions.updateNavPath([tmppath[0].thirdpath,tmppath[0].menupath,tmppath[0].subpath], tmppath[0].thirdpath);
+        } else {
+            var cleanerarr = []
+            for (let i=0; i < cleanarr.length; i++) {
+                for (let j=0; j< cleanarr[i].length; j++) {
+                    cleanerarr.push(cleanarr[i][j])
+                }
+            }
+            var tmppath2 = cleanerarr.filter(item => item.routeUrl == this.props.location.pathname)
+            if (tmppath2[0]) {
+                actions.updateNavPath([tmppath2[0].fourthpath,tmppath2[0].thirdpath,tmppath2[0].menupath,tmppath2[0].subpath], tmppath2[0].fourthpath);
+            }
         }
+        
     }
 
     render() {
