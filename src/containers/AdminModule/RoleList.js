@@ -312,11 +312,11 @@ class RoleList extends React.Component {
         {
             var propname = '';
             if (roleItems[i].type == 'SYSTEM') {
-                propname = '系统菜单'
+                propname = '系统角色'
             } else if (roleItems[i].type == 'DISTRICT') {
-                propname = '区菜单'
+                propname = '区角色'
             } else if (roleItems[i].type == 'KINDERGARTEN') {
-                propname = '幼儿园菜单'
+                propname = '幼儿园角色'
             }
 
             data.push({
@@ -325,9 +325,9 @@ class RoleList extends React.Component {
                 type: propname,
                 description: this.props.roleItems[i].description,
                 available: `${this.props.roleItems[i].available ? '是' : '否'}`,
-                createtime: this.props.roleItems[i].createtimeString,
+                createtime: this.props.roleItems[i].createtime,
                 createtimedetail: this.props.roleItems[i].createtime,
-                updatetime: this.props.roleItems[i].updatetimeString,
+                updatetime: this.props.roleItems[i].updatetime,
                 updatetimedetail: this.props.roleItems[i].updatetime,
                 creater: this.props.roleItems[i].createuserName,
                 lastupdater: this.props.roleItems[i].updateuserName
@@ -370,13 +370,13 @@ class RoleList extends React.Component {
 
         const propoptions = [{
             value: 'SYSTEM',
-            label: '系统菜单',
+            label: '系统角色',
         },{
             value: 'DISTRICT',
-            label: '区菜单',
+            label: '区角色',
         },{
             value: 'KINDERGARTEN',
-            label: '幼儿园菜单',
+            label: '幼儿园角色',
         }]
 
         const searchProps = getFieldProps('searchkeyword', {});
@@ -391,11 +391,42 @@ class RoleList extends React.Component {
         var menu = this.props.items.map((item) => {
             return (
                 <TreeNode title={<span>{item.name}</span>} key={item.id}>
-                    {item.childMenus.map((node) => {
-                        return (
-                            <TreeNode title={node.name} key={node.id}/>
-                        )
-                    })}
+                    {
+                        item.childMenus.map((node2) =>
+                        {
+                            if(node2.childMenus.length>0){
+                                return(
+                                    <TreeNode title={node2.name} key={node2.id}>
+                                        {
+                                            node2.childMenus.map(node3 => {
+                                                if(node3.childMenus.length>0){
+                                                    return(
+                                                        <TreeNode title={node3.name} key={node3.id}>
+                                                            {
+                                                                node3.childMenus.map(node4=>{
+                                                                    return(
+                                                                        <TreeNode title={node4.name} key={node4.id}/>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TreeNode>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <TreeNode title={node3.name} key={node3.id}/>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </TreeNode>
+                                )
+                            }else{
+                                return (
+                                    <TreeNode title={node2.name} key={node2.id}/>
+                                )
+                            }
+                         })
+                    }
                 </TreeNode>
             )
         });
