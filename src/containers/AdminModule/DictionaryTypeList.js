@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon,Tree} from 'antd'
-import {getAllDictionaryType,resetAllDictionaryType,addDictionaryType,resetTrigger} from '../../actions/AdminModule/dictionaryType'
+import {getAllDictionaryType,resetAllDictionaryType,addDictionaryType,editDictionaryType,resetTrigger} from '../../actions/AdminModule/dictionaryType'
 import {updateKeyword} from '../../actions/keyword'
 
 import classNames from 'classnames';
@@ -24,6 +24,7 @@ class DictionaryTypeList extends React.Component {
         this.props.getAllDictionaryType(1,10),
         this.setState({
             editvisible: false,
+            addvisible: false,
             currentpage: 1,
             pagesize: 10,
             selectedRows: []
@@ -32,31 +33,38 @@ class DictionaryTypeList extends React.Component {
 
     componentDidUpdate() {
         if (this.props.triggerStateChange == 201) {
-            message.error('信息加载失败', 2)
-            this.props.resetTrigger()
-        } else if (this.props.triggerStateChange == 3031) {
+            message.error('信息加载失败', 2);
+            this.props.resetTrigger();
+        } else if (this.props.triggerStateChange == 3000) {
+            message.success('添加成功', 2);
+            this.props.resetTrigger();
+            this.props.getAllDictionaryType(this.state.currentpage,this.state.pagesize,this.props.filterText);
+        }else if (this.props.triggerStateChange == 3500) {
             if(this.props.errorMessage){
-                message.error(this.props.errorMessage, 2)
+                message.error(this.props.errorMessage, 2);
             }
-            this.props.resetTrigger()
-        }else if (this.props.triggerStateChange == 3000) {
-            message.success('添加成功', 2),
-            this.props.resetTrigger()
-            this.props.getAllDictionaryType(this.state.currentpage,this.state.pagesize,this.props.filterText)
+            this.props.resetTrigger();
+        }else if (this.props.triggerStateChange == 3501) {
+            if(this.props.errorMessage){
+                message.error(this.props.errorMessage, 2);
+            }else{
+                message.error("添加失败", 2);
+            }
+            this.props.resetTrigger();
+        }else if (this.props.triggerStateChange == 6500) {
+            if(this.props.errorMessage){
+                message.error(this.props.errorMessage, 2);
+            }else{
+                message.error("编辑失败", 2);
+            }
+            this.props.resetTrigger();
+        }else if (this.props.triggerStateChange == 6200) {
+            message.success('编辑成功', 2);
+            this.props.resetTrigger();
+            this.props.getAllDictionaryType(this.state.currentpage,this.state.pagesize,this.props.filterText);
         }
     }
 
-    editUserInfo(item) {
-        var tmpid = (item.target.id * 1 - 2048)/666
-        var tmparr = this.props.listItems.filter(item => item.id == tmpid)
-        console.log(tmparr[0])
-        this.setState({
-            editvisible: true,
-            edittarget: tmparr[0].id,
-            defaultrole: tmparr[0].roleIds,
-            defaultname: tmparr[0].username
-        })
-    }
     onSearch (event){
         if(event.keyCode == 27){
             this.props.updateKeyword('')
@@ -116,7 +124,6 @@ class DictionaryTypeList extends React.Component {
             message.error('请输入描述说明', 2)
             return;
         }else{
-            console.log(dictionaryTypedata)
             this.props.addDictionaryType(dictionaryTypedata.key, dictionaryTypedata.name,dictionaryTypedata.des)
             this.hideAddModal()
         }
@@ -128,6 +135,48 @@ class DictionaryTypeList extends React.Component {
         })
         this.props.form.resetFields()
     }
+
+    editDictionaryType(item) {
+        var tmpid = (item.target.id * 1 - 2048)/666
+        var tmparr = this.props.listItems.filter(item => item.id == tmpid)
+        this.setState({
+            edittarget: tmparr[0].id,
+            defaultkey: tmparr[0].key,
+            defaultname: tmparr[0].name,
+            defaultdes: tmparr[0].directions,
+            editvisible: true
+        })
+    }
+
+    submitEdit() {
+        var dictionaryTypedata = this.props.form.getFieldsValue()
+        if (!dictionaryTypedata.key) {
+            message.error('请输入key', 2);
+            return;
+        }else if (!dictionaryTypedata.name) {
+            message.error('请输入名称', 2);
+            return;
+        }else if (!dictionaryTypedata.des) {
+            message.error('请输入描述说明', 2);
+            return;
+        }else{
+            this.props.editDictionaryType(this.state.edittarget,dictionaryTypedata.key,
+                                                dictionaryTypedata.name,dictionaryTypedata.des);
+            this.hideEditModal();
+        }
+    }
+
+    hideEditModal() {
+        this.setState({
+            editvisible: false,
+            defaultkey: '',
+            defaultname: '',
+            defaultdes: ''
+
+        })
+        this.props.form.resetFields()
+    }
+
     render() {
         const that = this
         const data = []
@@ -208,7 +257,7 @@ class DictionaryTypeList extends React.Component {
             render(text, record) {
                 return (
                     <span>
-                        <a href="#" id={record.key * 666 + 2048} onClick={that.editUserInfo.bind(that)}>编辑</a>
+                        <a href="#" id={record.key * 666 + 2048} onClick={that.editDictionaryType.bind(that)}>编辑</a>
                     </span>
                 );
             },
@@ -234,16 +283,19 @@ class DictionaryTypeList extends React.Component {
             rules: [
                 { required: true }
             ],
+            initialValue: this.state.defaultname
         });
         const keyProps = getFieldProps('key', {
             rules: [
                 { required: true }
             ],
+            initialValue: this.state.defaultkey
         });
         const desProps = getFieldProps('des', {
             rules: [
                 { required: true }
             ],
+            initialValue: this.state.defaultdes
         });
         const btnCls = classNames({
             'ant-search-btn': true
@@ -266,8 +318,10 @@ class DictionaryTypeList extends React.Component {
                 </InputGroup>
                 <Button onClick={this.addClickHandler.bind(this)} type="primary" style={{margin: '8px 12px 0 0'}}><Icon type="plus-circle-o"/>添加</Button>
                 <Button style={styles.refreshbtn} onClick={this.refreshClickHandler.bind(this)}>刷新</Button>
+
                 <Table rowSelection={rowSelection} pagination={pagination} columns={columns} dataSource={data} size="middle"/>
-                <Modal title="添加管理员" visible={this.state.addvisible}
+
+                <Modal title="添加字典类型" visible={this.state.addvisible}
                        onOk={this.submitAdd.bind(this)} onCancel={this.hideAddModal.bind(this)}
                        okText="提交" cancelText="取消">
                     <Form horizontal form={this.props.form} style={{marginTop: 20}}>
@@ -297,6 +351,38 @@ class DictionaryTypeList extends React.Component {
                         </FormItem>
                     </Form>
                 </Modal>
+
+                <Modal title="编辑数据字典类型" visible={this.state.editvisible}
+                       onOk={this.submitEdit.bind(this)} onCancel={this.hideEditModal.bind(this)}
+                       okText="提交" cancelText="取消">
+                    <Form horizontal form={this.props.form} style={{marginTop: 20}}>
+                        <FormItem
+                            {...formItemLayout}
+                            label="key："
+                            help=" "
+                            validateStatus="success"
+                        >
+                            <Input {...keyProps} placeholder="请输入key"></Input>
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="名称："
+                            help=" "
+                            validateStatus="success"
+                        >
+                            <Input {...nameProps} placeholder="请输入名称"></Input>
+                        </FormItem>
+                        <FormItem
+                            {...formItemLayout}
+                            label="描述说明："
+                            help=" "
+                            validateStatus="success"
+                        >
+                            <Input {...desProps} placeholder="请输入描述说明"></Input>
+                        </FormItem>
+                    </Form>
+                </Modal>
+
             </div>
         )
     }
@@ -323,6 +409,7 @@ function mapDispatchToProps(dispatch) {
         updateKeyword: bindActionCreators(updateKeyword, dispatch),
         resetAllDictionaryType: bindActionCreators(resetAllDictionaryType, dispatch),
         addDictionaryType: bindActionCreators(addDictionaryType, dispatch),
+        editDictionaryType: bindActionCreators(editDictionaryType, dispatch),
         resetTrigger: bindActionCreators(resetTrigger, dispatch),
     }
 }

@@ -5,6 +5,8 @@ export const GET_ALL_DictionaryType_ERROR = 'GET_ALL_DictionaryType_ERROR';
 export const RESET_ALL_DictionaryType = 'RESET_ALL_DictionaryType';
 export const ADD_DictionaryType_SUCCESS = 'ADD_DictionaryType_SUCCESS';
 export const ADD_DictionaryType_ERROR = 'ADD_DictionaryType_ERROR';
+export const EDIT_DictionaryType_SUCCESS = 'EDIT_DictionaryType_SUCCESS';
+export const EDIT_DictionaryType_ERROR = 'EDIT_DictionaryType_ERROR';
 export const RESET_TRIGGER = 'RESET_TRIGGER'
 
 export function getAllDictionaryType(page,pagesize,key) {
@@ -27,6 +29,21 @@ export function addDictionaryType(key,name,des) {
         payload: {
             promise: api.postForm('/web/dictionaryType/add.tj;',{
                 data: {
+                    key: key,
+                    name: name,
+                    directions: des
+                }
+            })
+        }
+    }
+}
+export function editDictionaryType(id,key,name,des) {
+    return {
+        type: 'EDIT_DictionaryType',
+        payload: {
+            promise: api.postForm('/web/dictionaryType/update.tj;',{
+                data: {
+                    id: id,
                     key: key,
                     name: name,
                     directions: des
