@@ -137,7 +137,6 @@ class AdminList extends React.Component {
             message.error('请选择管理员角色', 2)
         } else {
             var rolename = this.props.roleItems.filter((item) => item.id == adduserdata.userrole[0])
-            debugger;
             this.props.addAdmin(adduserdata.username, adduserdata.password,adduserdata.confirmpassword,
                 this.state.roleValue[0],this.state.checkedkeys+",","DISTRICT")//TODO 类型写死 测试，待修改
             this.hideAddModal()

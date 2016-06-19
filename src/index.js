@@ -14,6 +14,7 @@ import AdminList from './containers/AdminModule/AdminList';
 import ResourceList from './containers/AdminModule/ResourceList';
 import RoleList from './containers/AdminModule/RoleList';
 import OrganizationList from './containers/AdminModule/OrganizationList';
+import DictionaryTypeList from './containers/AdminModule/DictionaryTypeList';
 
 import level2 from './containers/Level2Module/level2'
 import level3 from './containers/Level2Module/level3'
@@ -52,6 +53,7 @@ ReactDOM.render(
                         <Route path="resourcelist" component={ResourceList}/>
                         <Route path="rolelist" component={RoleList}/>
                         <Route path="organizationlist" component={OrganizationList}/>
+                        <Route path="dictionaryTypeList" component={DictionaryTypeList}/>
                     </Route>
                     <Route path="login" component={Login}/>
                     <Route path='/level2'>
