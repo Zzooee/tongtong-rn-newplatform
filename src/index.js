@@ -45,7 +45,7 @@ ReactDOM.render(
         <div>
             <Router history={history}>
                 <Route path="/" onEnter={validate}>
-                    <IndexRedirect to="home"/>
+                    <IndexRedirect to="login"/>
                     <Route component={Blank}>
                         <Route path="home" component={Home}/>
                         <Route path="adminList" component={AdminList}/>
