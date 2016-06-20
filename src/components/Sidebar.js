@@ -147,7 +147,6 @@ class Sidebar extends React.Component {
 
         for (let i=0; i<this.props.items.length; i++) {
             var tmparrrr = this.props.items[i].childMenus.filter(node => node.id == this.state.menuhead)
-            console.log(JSON.stringify(tmparrrr[0]));
             if(tmparrrr[0]){
                 var menu = tmparrrr[0].childMenus.map((node) => {
                     if (node.childMenus.length == 0) {

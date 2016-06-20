@@ -44,11 +44,21 @@ class ResourceList extends React.Component {
             loading: false,
             data: [],
             pagination: {},
+            initialload: 1
         })
     }
 
+    componentWillReceiveProps() {
+
+    }
+
     componentDidUpdate() {
-        if (this.props.triggerStateChange == 301) {
+        if (this.props.resourceItems.length > 0 && this.state.initialload == 1) {
+            this.setState({
+                initialitems: this.props.resourceItems,
+                initialload: 2
+            })
+        } else if (this.props.triggerStateChange == 301) {
             message.error('添加失败', 2)
             this.props.resetTrigger()
         } else if (this.props.triggerStateChange == 101) {
@@ -69,7 +79,7 @@ class ResourceList extends React.Component {
 
     editResourceInfo(item) {
         var tmpid = (item.target.id * 1 - 2048)/666
-        var tmparr = this.props.resourceItems.filter(item => item.id == tmpid)
+        var tmparr = this.state.initialitems.filter(item => item.id == tmpid)
         var tmptypename = []
         var menuops = []
         if (tmparr[0].type == "一级菜单") {
@@ -77,7 +87,7 @@ class ResourceList extends React.Component {
             menuops = [{'value':0,'label':'无父ID'}]
         } else if (tmparr[0].type == "二级菜单") {
             tmptypename = ['SECOND_MENU']
-            var firstmenus = this.props.resourceItems.filter(item => item.parentId == 0)
+            var firstmenus = this.state.initialitems.filter(item => item.parentId == 0)
             for (let i=0; i<firstmenus.length; i++){
                 menuops.push({
                     value: firstmenus[i].id,
@@ -86,15 +96,15 @@ class ResourceList extends React.Component {
             }
         } else if (tmparr[0].type == "按钮") {
             tmptypename = ['BUTTON']
-            for (let i=0; i<this.props.resourceItems.length; i++){
+            for (let i=0; i<this.state.initialitems.length; i++){
                 menuops.push({
-                    value: this.props.resourceItems[i].id,
-                    label: this.props.resourceItems[i].name
+                    value: this.state.initialitems[i].id,
+                    label: this.state.initialitems[i].name
                 })
             }
         } else if (tmparr[0].type == "三级菜单") {
             tmptypename = ['THIRD_MENU']
-            var sndmenus = this.props.resourceItems.filter(item => item.type == '二级菜单')
+            var sndmenus = this.state.initialitems.filter(item => item.type == '二级菜单')
             for (let i=0; i<sndmenus.length; i++){
                 menuops.push({
                     value: sndmenus[i].id,
