@@ -136,7 +136,6 @@ class AdminList extends React.Component {
         } else if (!adduserdata.userrole){
             message.error('请选择管理员角色', 2)
         } else {
-            var rolename = this.props.roleItems.filter((item) => item.id == adduserdata.userrole[0])
             this.props.addAdmin(adduserdata.username, adduserdata.password,adduserdata.confirmpassword,
                 this.state.roleValue[0],this.state.checkedkeys+",","DISTRICT")//TODO 类型写死 测试，待修改
             this.hideAddModal()
@@ -352,7 +351,7 @@ class AdminList extends React.Component {
                     label: this.props.roleItems[i].description,
                 })
             }
-        }
+        }  
 
         const defaultroleids = options.filter(item => item.label == this.state.defaultrole)
 

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Table, Button, Input, Form, Modal, Popconfirm, message, Icon, Radio, Tree, Cascader} from 'antd'
-import {getRoleList, resetRoleList, addRole, editRole, resetTrigger, authRole} from '../../actions/AdminModule/rolelist'
+import {getOrganizationList, resetOrganizationList, addOrganization, editOrganization, resetTrigger} from '../../actions/AdminModule/organization'
 import {updateKeyword} from '../../actions/keyword'
 import classNames from 'classnames';
 const InputGroup = Input.Group;
@@ -23,14 +23,14 @@ class BasicInfo extends React.Component {
     }
 
     componentWillMount() {
-        this.props.getRoleList(1,10),
+        this.props.getOrganizationList(1,10),
         this.setState({
             editvisible: false,
             addvisible: false,
             permitvisible: false,
             currentpage: 1,
             pagesize: 10,
-            defaultrole: '',
+            defaultorganization: '',
             defaultdescription: '',
             defaultenable: true,
             selectedvalue: ['SYSTEM'],
@@ -39,7 +39,7 @@ class BasicInfo extends React.Component {
 
     componentDidUpdate() {
         if (this.props.triggerStateChange == 801) {
-            message.error('角色列表加载失败', 2)
+            message.error('组织列表加载失败', 2)
             this.props.resetTrigger()
         } else if (this.props.triggerStateChange == 301) {
             message.error('添加失败', 2)
@@ -53,15 +53,15 @@ class BasicInfo extends React.Component {
         } else if (this.props.triggerStateChange == 303) {
             message.success('添加成功', 2)
             this.props.resetTrigger()
-            this.props.getRoleList(this.state.currentpage, this.state.pagesize, this.props.filterText)
+            this.props.getOrganizationList(this.state.currentpage, this.state.pagesize, this.props.filterText)
         } else if (this.props.triggerStateChange == 503) {
             message.success('权限修改成功', 2)
             this.props.resetTrigger()
-            this.props.getRoleList(this.state.currentpage, this.state.pagesize, this.props.filterText)
+            this.props.getOrganizationList(this.state.currentpage, this.state.pagesize, this.props.filterText)
         } else if (this.props.triggerStateChange == 103) {
             message.success('编辑成功', 2)
             this.props.resetTrigger()
-            this.props.getRoleList(this.state.currentpage, this.state.pagesize, this.props.filterText)
+            this.props.getOrganizationList(this.state.currentpage, this.state.pagesize, this.props.filterText)
         }
     }
 
@@ -73,15 +73,15 @@ class BasicInfo extends React.Component {
     }
 
     submitAdd() {
-        var addroledata = this.props.form.getFieldsValue()
-        if (!addroledata.rolename) {
-            message.error('请输入角色名称', 2)
-        } else if (!addroledata.description) {
-            message.error('请输入角色描述', 2)
-        } else if (!addroledata.roletype) {
-            message.error('请选择角色属性', 2)
+        var addorganizationdata = this.props.form.getFieldsValue()
+        if (!addorganizationdata.organizationname) {
+            message.error('请输入组织名称', 2)
+        } else if (!addorganizationdata.description) {
+            message.error('请输入组织描述', 2)
+        } else if (!addorganizationdata.organizationtype) {
+            message.error('请选择组织属性', 2)
         } else {
-            this.props.addRole(addroledata.rolename, addroledata.description, addroledata.roleenable, addroledata.roletype)
+            this.props.addOrganization(addorganizationdata.organizationname, addorganizationdata.description, addorganizationdata.organizationenable, addorganizationdata.organizationtype)
             this.hideAddModal()
         }
 
@@ -97,28 +97,28 @@ class BasicInfo extends React.Component {
 
     editUserInfo(item) {
         var tmpid = (item.target.id * 1 - 2048)/666
-        var tmparr = this.props.roleItems.filter(item => item.id == tmpid)
+        var tmparr = this.props.orgItems.filter(item => item.id == tmpid)
         this.setState({
             editvisible: true,
             edittarget: tmparr[0].id,
-            defaultrole: tmparr[0].role,
+            defaultorganization: tmparr[0].organization,
             defaultdescription: tmparr[0].description,
             defaultenable: tmparr[0].available,
             selectedprop: [tmparr[0].type],
         })
-        this.props.getRoleList(this.state.currentpage, this.state.pagesize)
+        this.props.getOrganizationList(this.state.currentpage, this.state.pagesize)
     }
 
     submitEdit() {
-        var editroledata = this.props.form.getFieldsValue()
-        if (!editroledata.rolename) {
-            message.error('请输入角色名称', 2)
-        } else if (!editroledata.description) {
-            message.error('请输入角色描述', 2)
-        } else if (!editroledata.roletype) {
-            message.error('请选择角色属性', 2)
+        var editorganizationdata = this.props.form.getFieldsValue()
+        if (!editorganizationdata.organizationname) {
+            message.error('请输入组织名称', 2)
+        } else if (!editorganizationdata.description) {
+            message.error('请输入组织描述', 2)
+        } else if (!editorganizationdata.organizationtype) {
+            message.error('请选择组织属性', 2)
         } else {
-            this.props.editRole(this.state.edittarget, editroledata.rolename, editroledata.description, editroledata.roleenable, editroledata.roletype)
+            this.props.editOrganization(this.state.edittarget, editorganizationdata.organizationname, editorganizationdata.description, editorganizationdata.organizationenable, editorganizationdata.organizationtype)
             this.hideEditModal()
         }
     }
@@ -126,7 +126,7 @@ class BasicInfo extends React.Component {
     hideEditModal() {
         this.setState({
             editvisible: false,
-            defaultrole: '',
+            defaultorganization: '',
             defaultdescription: '',
             defaultenable: true,
             selectedprop: ['SYSTEM'],
@@ -143,7 +143,7 @@ class BasicInfo extends React.Component {
 
     getUser(item) {
         var tmpid = (item.target.id * 1 - 1024)/233
-        var tmparr = this.props.roleItems.filter(item => item.id == tmpid)
+        var tmparr = this.props.orgItems.filter(item => item.id == tmpid)
         var tmpkey = []
         if(tmparr[0].resourceIds){
             tmpkey = tmparr[0].resourceIds.split(',')
@@ -151,7 +151,7 @@ class BasicInfo extends React.Component {
         this.setState({
             permitvisible: true,
             permittarget: tmparr[0].id,
-            defaultrolenm: tmparr[0].role,
+            defaultorganizationnm: tmparr[0].organization,
             defaultdesp: tmparr[0].description,
             checkedkeys: tmpkey,
             selectedprop: [tmparr[0].type],
@@ -159,14 +159,14 @@ class BasicInfo extends React.Component {
     }
 
     submitPermit() {
-        this.props.authRole(this.state.permittarget, this.state.checkedkeys+",")
+        this.props.authOrganization(this.state.permittarget, this.state.checkedkeys+",")
         this.hidePermitModal()
     }
 
     hidePermitModal() {
         this.setState({
             permitvisible: false,
-            defaultrolenm: '',
+            defaultorganizationnm: '',
             defaultdesp: '',
             checkedkeys: [],
             selectedprop: ['SYSTEM'],
@@ -175,8 +175,8 @@ class BasicInfo extends React.Component {
 
     refreshClickHandler(){
         this.props.updateKeyword('')
-        this.props.resetRoleList()
-        this.props.getRoleList(this.state.currentpage, this.state.pagesize)
+        this.props.resetOrganizationList()
+        this.props.getOrganizationList(this.state.currentpage, this.state.pagesize)
     }
 
     enterKeyword(item) {
@@ -186,19 +186,19 @@ class BasicInfo extends React.Component {
     onSearch (event){
         if(event.keyCode == 27){
             this.props.updateKeyword('')
-            this.props.getRoleList(1,this.state.pagesize)
+            this.props.getOrganizationList(1,this.state.pagesize)
             this.setState({
                 currentpage: 1,
             })
        } else if (event.keyCode == 13){
-            this.props.getRoleList(1,this.state.pagesize, this.props.filterText)
+            this.props.getOrganizationList(1,this.state.pagesize, this.props.filterText)
             this.setState({
                 currentpage: 1,
             })
        } else if (event.keyCode == 8){
             if (this.props.filterText == ''){
                 this.props.updateKeyword('')
-                this.props.getRoleList(1,this.state.pagesize)
+                this.props.getOrganizationList(1,this.state.pagesize)
                 this.setState({
                     currentpage: 1,
                 })
@@ -207,7 +207,7 @@ class BasicInfo extends React.Component {
     }
 
     startSearch(){
-        this.props.getRoleList(1,this.state.pagesize,this.props.filterText)
+        this.props.getOrganizationList(1,this.state.pagesize,this.props.filterText)
         this.setState({
             currentpage: 1,
         })
@@ -221,7 +221,7 @@ class BasicInfo extends React.Component {
 
     render() {
 
-        const {roleItems} = this.props
+        const {orgItems} = this.props
         const that = this
         const data = []
 
@@ -251,27 +251,23 @@ class BasicInfo extends React.Component {
                     currentpage: current,
                     pagesize: pageSize
                 });
-                that.props.getRoleList(current,pageSize,that.props.filterText)
+                that.props.getOrganizationList(current,pageSize,that.props.filterText)
             },
             onChange(current) {
                 console.log('Current: ', current);
                 that.setState({
                     currentpage: current
                 });
-                that.props.getRoleList(current,that.state.pagesize,that.props.filterText)
+                that.props.getOrganizationList(current,that.state.pagesize,that.props.filterText)
             }
         };
 
         const columns = [{
-            title: '角色名称',
-            dataIndex: 'role',
-            key: 'role',
+            title: '组织名称',
+            dataIndex: 'name',
+            key: 'name',
         }, {
-            title: '角色描述',
-            dataIndex: 'description',
-            key: 'description',
-        }, {
-            title: '角色属性',
+            title: '组织属性',
             dataIndex: 'type',
             key: 'type',
         }, {
@@ -287,13 +283,13 @@ class BasicInfo extends React.Component {
             dataIndex: 'updatetime',
             key: 'updatetime',
         }, {
-            title: '创建人',
-            dataIndex: 'creater',
-            key: 'creater',
+            title: '创建人ID',
+            dataIndex: 'createuserid',
+            key: 'createuserid',
         }, {
-            title: '最后更新人',
-            dataIndex: 'lastupdater',
-            key: 'lastupdater',
+            title: '更新人ID',
+            dataIndex: 'updateuserid',
+            key: 'updateuserid',
         }, {
             title: '操作',
             key: 'operation',
@@ -301,62 +297,46 @@ class BasicInfo extends React.Component {
                 return (
                     <span>
                         <a href="#" id={record.key * 666 + 2048} onClick={that.editUserInfo.bind(that)}>编辑</a>
-                        <span className="ant-divider"></span>
-                        <a href="#" id={record.key * 233 + 1024} onClick={that.getUser.bind(that)}>权限设置</a>
                     </span>
                 );
             },
         }];
 
-        for (let i = 0; i < this.props.roleItems.length; i++)
+        for (let i = 0; i < this.props.orgItems.length; i++)
         {
             var propname = '';
-            if (roleItems[i].type == 'SYSTEM') {
+            if (orgItems[i].type == 'SYSTEM') {
                 propname = '系统菜单'
-            } else if (roleItems[i].type == 'DISTRICT') {
+            } else if (orgItems[i].type == 'DISTRICT') {
                 propname = '区菜单'
-            } else if (roleItems[i].type == 'KINDERGARTEN') {
+            } else if (orgItems[i].type == 'KINDERGARTEN') {
                 propname = '幼儿园菜单'
             }
 
             data.push({
-                key: this.props.roleItems[i].id,
-                role: this.props.roleItems[i].role,
+                key: this.props.orgItems[i].id,
+                name: this.props.orgItems[i].name,
                 type: propname,
-                description: this.props.roleItems[i].description,
-                available: `${this.props.roleItems[i].available ? '是' : '否'}`,
-                createtime: this.props.roleItems[i].createtimeString,
-                createtimedetail: this.props.roleItems[i].createtime,
-                updatetime: this.props.roleItems[i].updatetimeString,
-                updatetimedetail: this.props.roleItems[i].updatetime,
-                creater: this.props.roleItems[i].createuserName,
-                lastupdater: this.props.roleItems[i].updateuserName
+                available: `${this.props.orgItems[i].available ? '是' : '否'}`,
+                createtime: this.props.orgItems[i].createtimeString,
+                createtimedetail: this.props.orgItems[i].createtime,
+                updatetime: this.props.orgItems[i].updatetimeString,
+                updatetimedetail: this.props.orgItems[i].updatetime,
+                createuserid: this.props.orgItems[i].createuserid,
+                updateuserid: this.props.orgItems[i].updateuserid
             })
         }
 
         const {getFieldProps, getFieldError, isFieldValidating} = this.props.form;
 
-        const rolenameProps = getFieldProps('rolename', {
+        const organizationnameProps = getFieldProps('organizationname', {
             rules: [
                 { required: true }
             ],
-            initialValue: this.state.defaultrole
+            initialValue: this.state.defaultorganization
         });
 
-        const descriptionProps = getFieldProps('description', {
-            rules: [
-                { required: true }
-            ],
-            initialValue: this.state.defaultdescription
-        });
-
-        const roleProps = getFieldProps('userrole', {
-            rules: [
-                { required: true, type: 'array' }
-            ],
-        });
-
-        const propertyProps = getFieldProps('roletype', {
+        const propertyProps = getFieldProps('organizationtype', {
             rules: [
                 { required: true, type: 'array' }
             ],
@@ -404,7 +384,7 @@ class BasicInfo extends React.Component {
             <div>
                 <InputGroup className="tj-search-group">
                     <Input {...searchProps} onKeyUp={this.onSearch.bind(this)} value={this.props.filterText} onChange={this.enterKeyword.bind(this)}
-                        placeholder="搜索角色名称 (按Esc键重置)"/>
+                        placeholder="搜索组织名称 (按Esc键重置)"/>
                     <div className="ant-input-group-wrap">
                         <Button className={btnCls} onClick={this.startSearch.bind(this)}>
                             <Icon type="search" />
@@ -414,27 +394,19 @@ class BasicInfo extends React.Component {
                 <Button onClick={this.addClickHandler.bind(this)} type="primary" style={{margin: '8px 12px 0 0'}}><Icon type="plus-circle-o"/>添加</Button>
                 <Button style={styles.refreshbtn} onClick={this.refreshClickHandler.bind(this)}>刷新</Button>
                 <Table rowSelection={rowSelection} pagination={pagination} columns={columns} dataSource={data} size="middle"/>
-                <Modal title="添加角色" visible={this.state.addvisible} onOk={this.submitAdd.bind(this)} onCancel={this.hideAddModal.bind(this)} okText="提交" cancelText="取消">
+                <Modal title="添加组织" visible={this.state.addvisible} onOk={this.submitAdd.bind(this)} onCancel={this.hideAddModal.bind(this)} okText="提交" cancelText="取消">
                     <Form horizontal form={this.props.form} style={{marginTop: 20}}>
                         <FormItem
                             {...FormItemLayout}
-                            label="请输入角色名称："
+                            label="请输入组织名称："
                             help=" "
                             validateStatus="success"
                             >
-                            <Input {...rolenameProps} placeholder="请输入角色名称"></Input>
+                            <Input {...organizationnameProps} placeholder="请输入组织名称"></Input>
                         </FormItem>
                         <FormItem
                             {...FormItemLayout}
-                            label="角色描述："
-                            help=" "
-                            validateStatus="success"
-                            >
-                            <Input {...descriptionProps} placeholder="请输入角色描述"></Input>
-                        </FormItem>
-                        <FormItem
-                            {...FormItemLayout}
-                            label="请选择角色属性： "
+                            label="请选择组织属性： "
                             help=" "
                             >
                             <Cascader {...propertyProps} options={propoptions} allowClear={false} onChange={this.validproperty.bind(this)}/>
@@ -446,34 +418,26 @@ class BasicInfo extends React.Component {
                             validateStatus="success"
                             style={{marginBottom: 20}}
                             >
-                            <RadioGroup {...getFieldProps('roleenable', { initialValue: this.state.defaultenable })} style={{marginTop: 10}}>
+                            <RadioGroup {...getFieldProps('organizationenable', { initialValue: this.state.defaultenable })} style={{marginTop: 10}}>
                                 <Radio key="a" value={true}>是</Radio>
                                 <Radio key="b" value={false}>否</Radio>
                             </RadioGroup>
                         </FormItem>
                     </Form>
                 </Modal>
-                <Modal title="编辑角色" visible={this.state.editvisible} onOk={this.submitEdit.bind(this)} onCancel={this.hideEditModal.bind(this)} okText="提交" cancelText="取消">
+                <Modal title="编辑组织" visible={this.state.editvisible} onOk={this.submitEdit.bind(this)} onCancel={this.hideEditModal.bind(this)} okText="提交" cancelText="取消">
                     <Form horizontal form={this.props.form} style={{marginTop: 20}}>
                         <FormItem
                             {...FormItemLayout}
-                            label="请输入角色名称："
+                            label="请输入组织名称："
                             help=" "
                             validateStatus="success"
                             >
-                            <Input {...rolenameProps} placeholder="请输入角色名称"></Input>
+                            <Input {...organizationnameProps} placeholder="请输入组织名称"></Input>
                         </FormItem>
                         <FormItem
                             {...FormItemLayout}
-                            label="角色描述："
-                            help=" "
-                            validateStatus="success"
-                            >
-                            <Input {...descriptionProps} placeholder="请输入角色描述"></Input>
-                        </FormItem>
-                        <FormItem
-                            {...FormItemLayout}
-                            label="请选择角色属性： "
+                            label="请选择组织属性： "
                             help=" "
                             >
                             <Cascader {...propertyProps} options={propoptions} allowClear={false} onChange={this.validproperty.bind(this)}/>
@@ -485,22 +449,12 @@ class BasicInfo extends React.Component {
                             validateStatus="success"
                             style={{marginBottom: 20}}
                             >
-                            <RadioGroup {...getFieldProps('roleenable', { initialValue: this.state.defaultenable })} style={{marginTop: 10}}>
+                            <RadioGroup {...getFieldProps('organizationenable', { initialValue: this.state.defaultenable })} style={{marginTop: 10}}>
                                 <Radio key="a" value={true}>是</Radio>
                                 <Radio key="b" value={false}>否</Radio>
                             </RadioGroup>
                         </FormItem>
                     </Form>
-                </Modal>
-                <Modal title="权限设置" className="setpermit" visible={this.state.permitvisible} onOk={this.submitPermit.bind(this)} onCancel={this.hidePermitModal.bind(this)} okText="提交" cancelText="取消">
-                    <p style={{marginBottom: 12}}>角色名称：{this.state.defaultrolenm}</p>
-                    <p style={{marginBottom: 12}}>角色描述：{this.state.defaultdesp}</p>
-                    <Tree showLine multiple checkable defaultExpandAll
-                        selectedKeys={[]}
-                        checkedKeys={this.state.checkedkeys}
-                        onCheck={this.onCheck.bind(this)}>
-                        {menu}
-                    </Tree>
                 </Modal>
             </div>
         )
@@ -512,23 +466,22 @@ BasicInfo = Form.create()(BasicInfo);
 function mapStateToProps(state) {
 
     return {
-        roleItems: state.rolelist.roleItems,
-        triggerStateChange: state.rolelist.triggerStateChange,
+        orgItems: state.organization.orgItems,
+        triggerStateChange: state.organization.triggerStateChange,
         filterText: state.keyword.filterText,
-        totals: state.rolelist.totals,
+        totals: state.organization.totals,
         items: state.menu.items
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        resetRoleList: bindActionCreators(resetRoleList, dispatch),
+        resetOrganizationList: bindActionCreators(resetOrganizationList, dispatch),
         resetTrigger: bindActionCreators(resetTrigger, dispatch),
         updateKeyword: bindActionCreators(updateKeyword, dispatch),
-        getRoleList: bindActionCreators(getRoleList, dispatch),
-        addRole: bindActionCreators(addRole, dispatch),
-        editRole: bindActionCreators(editRole, dispatch),
-        authRole: bindActionCreators(authRole, dispatch)
+        getOrganizationList: bindActionCreators(getOrganizationList, dispatch),
+        addOrganization: bindActionCreators(addOrganization, dispatch),
+        editOrganization: bindActionCreators(editOrganization, dispatch)
     }
 }
 
