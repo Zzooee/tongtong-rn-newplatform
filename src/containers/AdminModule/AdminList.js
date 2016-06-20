@@ -39,8 +39,10 @@ class AdminList extends React.Component {
         } else if (this.props.triggerStateChange == 801) {
             message.error('角色列表加载失败', 2)
             this.props.resetTrigger()
+            
         } else if (this.props.triggerStateChange == 101) {
             message.error('编辑失败', 2)
+            
             this.props.resetTrigger()
         } else if (this.props.triggerStateChange == 301) {
             message.error('管理员名称重复', 2)
