@@ -287,14 +287,10 @@ class AdminList extends React.Component {
             dataIndex: 'username',
             key: 'username',
         }, {
-            title: '角色ID',
-            dataIndex: 'roleIds',
-            key: 'roleIds',
-        },  {
-            title: '角色名称',
+            title: '角色',
             dataIndex: 'roleNames',
             key: 'roleNames',
-        },{
+        }, {
             title: '是否锁定',
             dataIndex: 'iflockedString',
             key: 'iflockedString',
