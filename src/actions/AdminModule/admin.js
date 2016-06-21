@@ -4,13 +4,13 @@ export const GET_ALL_ADMIN_SUCCESS = 'GET_ALL_ADMIN_SUCCESS';
 export const GET_ALL_ADMIN_ERROR = 'GET_ALL_ADMIN_ERROR';
 export const RESET_ADMINLIST = 'RESET_ADMINLIST';
 export const LOCK_ADMIN_SUCCESS = 'LOCK_ADMIN_SUCCESS';
-export const RESET_TRIGGER = 'RESET_TRIGGER'
-export const EDIT_ADMIN_SUCCESS = 'EDIT_ADMIN_SUCCESS'
-export const EDIT_ADMIN_ERROR = 'EDIT_ADMIN_ERROR'
-export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS'
-export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR'
-export const DELETE_ADMIN_SUCCESS = 'DELETE_ADMIN_SUCCESS'
-export const DELETE_ADMIN_ERROR = 'DELETE_ADMIN_ERROR'
+export const RESET_TRIGGER = 'RESET_TRIGGER';
+export const EDIT_ADMIN_SUCCESS = 'EDIT_ADMIN_SUCCESS';
+export const EDIT_ADMIN_ERROR = 'EDIT_ADMIN_ERROR';
+export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS';
+export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR';
+export const DELETE_ADMIN_SUCCESS = 'DELETE_ADMIN_SUCCESS';
+export const DELETE_ADMIN_ERROR = 'DELETE_ADMIN_ERROR';
 
 export function getAllAdmin(page,pagesize,username) {
     return {
@@ -62,7 +62,7 @@ export function editAdmin(userid, username, roleid, resourceIds) {
     }
 }
 
-export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId, resourceIds,type) {
+export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId, resourceIds) {
     return {
         type: 'ADD_ADMIN',
         payload: {
@@ -72,8 +72,7 @@ export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId
                     adminPassword:adminPassword,
                     adminSurePassword:adminSurePassword,                    
                     roleId:roleId,
-                    resourceIds: resourceIds,
-                    type: type
+                    resourceIds: resourceIds
                 }
             })
         }

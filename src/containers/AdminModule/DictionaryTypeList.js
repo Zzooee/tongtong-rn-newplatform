@@ -182,16 +182,13 @@ class DictionaryTypeList extends React.Component {
         const data = []
         const rowSelection = {
             onChange(selectedRowKeys, selectedRows) {
-              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
               that.setState({
                 selectedRows: selectedRows
               })
             },
             onSelect(record, selected, selectedRows) {
-              console.log(record, selected, selectedRows);
             },
             onSelectAll(selected, selectedRows, changeRows) {
-              console.log(selected, selectedRows, changeRows);
             },
         };
 
@@ -205,21 +202,19 @@ class DictionaryTypeList extends React.Component {
             showQuickJumper: (this.props.totals > this.state.pagesize),
             showSizeChanger: true,
             onShowSizeChange(current, pageSize) {
-                console.log('Current: ', current, '; PageSize: ', pageSize);
                 currentpage = current;
                 pagesize = pageSize;
                 that.setState({
                     currentpage: current,
                     pagesize: pageSize
                 });
-                that.props.getAllAdmin(current,pageSize,that.props.filterText)
+                that.props.getAllDictionaryType(current,pageSize,that.props.filterText)
             },
             onChange(current) {
-                console.log('Current: ', current);
                 that.setState({
                     currentpage: current
                 });
-                that.props.getAllAdmin(current,that.state.pagesize,that.props.filterText)
+                that.props.getAllDictionaryType(current,that.state.pagesize,that.props.filterText)
             }
         };
 

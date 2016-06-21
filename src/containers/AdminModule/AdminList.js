@@ -75,7 +75,6 @@ class AdminList extends React.Component {
     editUserInfo(item) {
         var tmpid = (item.target.id * 1 - 2048)/666
         var tmparr = this.props.listItems.filter(item => item.id == tmpid)
-        console.log(tmparr[0])
         this.setState({
             editvisible: true,
             edittarget: tmparr[0].id,
