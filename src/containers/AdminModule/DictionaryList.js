@@ -310,7 +310,6 @@ class DictionaryTypeList extends React.Component {
                 })
             }
         }
-        debugger;
         const defaultoptionsType = optionsType.filter(item => item.value == this.state.defaultdicType)
         const defaultoptionsparentId = optionsType.filter(item => item.value == this.state.defaultdicparentId)
         const {getFieldProps, getFieldError, isFieldValidating,validateFields} = this.props.form;
@@ -405,7 +404,7 @@ class DictionaryTypeList extends React.Component {
                             <Input {...valueProps} placeholder="请输入名称"/>
                         </FormItem>
                         <FormItem
-                            {...formItemLayout} hasFeedback={true}
+                            {...formItemLayout} 
                             label="排序："
                         >
                             <InputNumber {...sortProps} min={0} placeholder="排序值" />

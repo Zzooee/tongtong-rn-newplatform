@@ -46,7 +46,7 @@ export function lockAdmin(userid) {
     }
 }
 
-export function editAdmin(userid, username, roleid, resourceIds) {
+export function editAdmin(userid, username, roleid, resourceIds,organizationId) {
 	return {
         type: 'EDIT_ADMIN',
         payload: {
@@ -55,14 +55,15 @@ export function editAdmin(userid, username, roleid, resourceIds) {
                     adminUserName: username,
                     roleId: roleid,
                     userId: userid,
-                    resourceIds: resourceIds
+                    resourceIds: resourceIds,
+                    organizationId: organizationId
                 }
             })
         }
     }
 }
 
-export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId, resourceIds) {
+export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId, resourceIds,organizationId) {
     return {
         type: 'ADD_ADMIN',
         payload: {
@@ -72,7 +73,8 @@ export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId
                     adminPassword:adminPassword,
                     adminSurePassword:adminSurePassword,                    
                     roleId:roleId,
-                    resourceIds: resourceIds
+                    resourceIds: resourceIds,
+                    organizationId: organizationId
                 }
             })
         }
