@@ -310,7 +310,7 @@ class DictionaryTypeList extends React.Component {
                 })
             }
         }
-        debugger;
+        //debugger;
         const defaultoptionsType = optionsType.filter(item => item.value == this.state.defaultdicType)
         const defaultoptionsparentId = optionsType.filter(item => item.value == this.state.defaultdicparentId)
         const {getFieldProps, getFieldError, isFieldValidating,validateFields} = this.props.form;

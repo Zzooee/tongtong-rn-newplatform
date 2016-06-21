@@ -1,14 +1,9 @@
-/**
- * Created by scott on 6/20/16.
- */
-
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import React, {PropTypes} from 'react';
 import {updateKeyword} from '../../actions/keyword';
-import classNames from 'classnames';
 import {Table, Button, Input, Form, Modal, Popconfirm, message, Icon, Radio, Tree, Cascader} from 'antd';
-import {getKindergartenList, addKindergarten, resetTrigger, resetKindergartenList} from '../../actions/KindergartenModule/kindergarten';
+import {getKindergartenAll, addKindergarten, resetTrigger, resetKindergartenALL} from '../../actions/KindergartenModule/kindergarten';
 const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
 const createForm = Form.create;
@@ -28,7 +23,7 @@ class KindergartenList extends React.Component {
     }
 
     componentWillMount() {
-        this.props.getKindergartenList(1,10),
+        this.props.getKindergartenAll(1,10),
             this.setState({
                 editvisible: false,
                 addvisible: false,
@@ -38,7 +33,7 @@ class KindergartenList extends React.Component {
                 defaultkindergarten: '',
                 defaultdescription: '',
                 defaultenable: true,
-                selectedvalue: ['SYSTEM'],
+                selectedvalue: []
             })
     }
 
@@ -53,7 +48,7 @@ class KindergartenList extends React.Component {
     refreshClickHandler(){
         this.props.updateKeyword('')
         this.props.resetOrganizationList()
-        this.props.getOrganizationList(this.state.currentpage, this.state.pagesize)
+        this.props.getKindergartenAll(this.state.currentpage, this.state.pagesize)
     }
 
     enterKeyword(item) {
@@ -62,29 +57,30 @@ class KindergartenList extends React.Component {
 
     onSearch (event){
         if(event.keyCode == 27){
-            this.props.updateKeyword('')
-            this.props.getKindergartenList(1,this.state.pagesize)
+            this.props.updateKeyword('');
+            this.props.getAllDictionary(1,this.state.pagesize);
             this.setState({
-                currentpage: 1,
+                currentpage: 1
             })
         } else if (event.keyCode == 13){
-            this.props.getKindergartenList(1,this.state.pagesize, this.props.filterText)
+            this.props.getAllDictionary(1,this.state.pagesize, this.props.filterText);
             this.setState({
-                currentpage: 1,
+                currentpage: 1
             })
         } else if (event.keyCode == 8){
             if (this.props.filterText == ''){
-                this.props.updateKeyword('')
-                this.props.getKindergartenList(1,this.state.pagesize)
+                this.props.updateKeyword('');
+                this.props.getAllDictionary(1,this.state.pagesize);
                 this.setState({
-                    currentpage: 1,
+                    currentpage: 1
                 })
             }
         }
+
     }
 
     startSearch(){
-        this.props.getOrganizationList(1,this.state.pagesize,this.props.filterText)
+        this.props.getKindergartenAll(1,this.state.pagesize,this.props.filterText)
         this.setState({
             currentpage: 1,
         })
@@ -128,63 +124,21 @@ class KindergartenList extends React.Component {
                     currentpage: current,
                     pagesize: pageSize
                 });
-                that.props.getKindergartenList(current, pageSize, that.props.filterText);
+                that.props.getKindergartenAll(current, pageSize, that.props.filterText);
             },
             onChange(current) {
                 console.log('Current: ', current);
                 that.setState({
                     currentpage: current
                 });
-                that.props.getKindergartenList(current, that.state.pagesize, that.props.filterText)
+                that.props.getKindergartenAll(current, that.state.pagesize, that.props.filterText)
             }
         };
 
 
         return (
             <div>
-                <InputGroup className="tj-search-group">
-                    <Input {...searchProps} onKeyUp={this.onSearch.bind(this)} value={this.props.filterText} onChange={this.enterKeyword.bind(this)}
-                                            placeholder="搜索组织名称 (按Esc键重置)"/>
-                    <div className="ant-input-group-wrap">
-                        <Button className={btnCls} onClick={this.startSearch.bind(this)}>
-                            <Icon type="search" />
-                        </Button>
-                    </div>
-                </InputGroup>
-                <Button onClick={this.addClickHandler.bind(this)} type="primary" style={{margin: '8px 12px 0 0'}}><Icon type="plus-circle-o"/>添加</Button>
-                <Button style={styles.refreshbtn} onClick={this.refreshClickHandler.bind(this)}>刷新</Button>
-                <Table rowSelection={rowSelection} pagination={pagination} columns={columns} dataSource={data} size="middle"/>
-                <Modal title="添加组织" visible={this.state.addvisible} onOk={this.submitAdd.bind(this)} onCancel={this.hideAddModal.bind(this)} okText="提交" cancelText="取消">
-                    <Form horizontal form={this.props.form} style={{marginTop: 20}}>
-                        <FormItem
-                            {...FormItemLayout}
-                            label="请输入组织名称："
-                            help=" "
-                            validateStatus="success"
-                        >
-                            <Input {...organizationnameProps} placeholder="请输入组织名称"></Input>
-                        </FormItem>
-                        <FormItem
-                            {...FormItemLayout}
-                            label="请选择组织属性： "
-                            help=" "
-                        >
-                            <Cascader {...propertyProps} options={propoptions} allowClear={false} onChange={this.validproperty.bind(this)}/>
-                        </FormItem>
-                        <FormItem
-                            {...FormItemLayout}
-                            label="是否可用："
-                            help=" "
-                            validateStatus="success"
-                            style={{marginBottom: 20}}
-                        >
-                            <RadioGroup {...getFieldProps('organizationenable', { initialValue: this.state.defaultenable })} style={{marginTop: 10}}>
-                                <Radio key="a" value={true}>是</Radio>
-                                <Radio key="b" value={false}>否</Radio>
-                            </RadioGroup>
-                        </FormItem>
-                    </Form>
-                </Modal>
+                1111
             </div>
         )
 
@@ -207,10 +161,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        resetOrganizationList: bindActionCreators(resetKindergartenList, dispatch),
+        resetKindergartenALL: bindActionCreators(resetKindergartenALL, dispatch),
         resetTrigger: bindActionCreators(resetTrigger, dispatch),
         updateKeyword: bindActionCreators(updateKeyword, dispatch),
-        getOrganizationList: bindActionCreators(getKindergartenList, dispatch)
+        getKindergartenAll: bindActionCreators(getKindergartenAll, dispatch)
     }
 }
 

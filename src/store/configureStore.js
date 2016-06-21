@@ -11,10 +11,11 @@ import rolelist from '../reducers/AdminModule/rolelist';
 import resource from '../reducers/AdminModule/resource';
 import keyword from '../reducers/keyword';
 import organization from '../reducers/AdminModule/organization'
+import kindergarten from '../reducers/KindergartenModule/kindergarten';
 
 import DevTools from '../utils/DevTools';
 
-const reducer = combineReducers({user, menu, admin,dictionaryType,dictionary,rolelist, resource, keyword, organization});
+const reducer = combineReducers({user, menu, admin,dictionaryType,dictionary,rolelist, resource, keyword, organization, kindergarten});
 
 const enhancer = compose(
     // Middleware you want to use in development:
