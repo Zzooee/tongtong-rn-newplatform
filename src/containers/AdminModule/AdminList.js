@@ -39,8 +39,10 @@ class AdminList extends React.Component {
         } else if (this.props.triggerStateChange == 801) {
             message.error('角色列表加载失败', 2)
             this.props.resetTrigger()
+            
         } else if (this.props.triggerStateChange == 101) {
             message.error('编辑失败', 2)
+            
             this.props.resetTrigger()
         } else if (this.props.triggerStateChange == 301) {
             message.error('管理员名称重复', 2)
@@ -285,10 +287,14 @@ class AdminList extends React.Component {
             dataIndex: 'username',
             key: 'username',
         }, {
-            title: '角色',
-            dataIndex: 'role',
-            key: 'role',
-        }, {
+            title: '角色ID',
+            dataIndex: 'roleIds',
+            key: 'roleIds',
+        },  {
+            title: '角色名称',
+            dataIndex: 'roleNames',
+            key: 'roleNames',
+        },{
             title: '是否锁定',
             dataIndex: 'iflockedString',
             key: 'iflockedString',
@@ -329,7 +335,8 @@ class AdminList extends React.Component {
             data.push({
                 key: this.props.listItems[i].id,
                 username: this.props.listItems[i].username,
-                role: this.props.listItems[i].roleIds,
+                roleIds: this.props.listItems[i].roleIds,
+                roleNames: this.props.listItems[i].roleNames,
                 iflockedString: `${this.props.listItems[i].locked ? '是' : '否'}`,
                 iflocked: this.props.listItems[i].locked,
                 createtime: this.props.listItems[i].createtime,
