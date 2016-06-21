@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon} from 'antd'
+import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon,Tree} from 'antd'
 import {getAllAdmin, resetAdminList, lockAdmin, resetTrigger, editAdmin, addAdmin, deleteAdmin} from '../../actions/AdminModule/admin'
 import {getRoleList} from '../../actions/AdminModule/rolelist'
 import {updateKeyword} from '../../actions/keyword'
 
 import classNames from 'classnames';
 const InputGroup = Input.Group;
-
+const TreeNode = Tree.TreeNode;
 const createForm = Form.create;
 const FormItem = Form.Item;
 
@@ -39,8 +39,10 @@ class AdminList extends React.Component {
         } else if (this.props.triggerStateChange == 801) {
             message.error('角色列表加载失败', 2)
             this.props.resetTrigger()
+            
         } else if (this.props.triggerStateChange == 101) {
             message.error('编辑失败', 2)
+            
             this.props.resetTrigger()
         } else if (this.props.triggerStateChange == 301) {
             message.error('管理员名称重复', 2)
@@ -75,7 +77,6 @@ class AdminList extends React.Component {
     editUserInfo(item) {
         var tmpid = (item.target.id * 1 - 2048)/666
         var tmparr = this.props.listItems.filter(item => item.id == tmpid)
-        console.log(tmparr[0])
         this.setState({
             editvisible: true,
             edittarget: tmparr[0].id,
@@ -111,6 +112,14 @@ class AdminList extends React.Component {
         this.props.getRoleList()
     }
 
+    onCheck(info) {
+        console.log('onCheck', info);
+
+        this.setState({
+            checkedkeys: info
+        })
+    }
+
     submitAdd() {
         var adduserdata = this.props.form.getFieldsValue()
         if (!adduserdata.username) {
@@ -128,8 +137,8 @@ class AdminList extends React.Component {
         } else if (!adduserdata.userrole){
             message.error('请选择管理员角色', 2)
         } else {
-            var rolename = this.props.roleItems.filter((item) => item.id == adduserdata.userrole[0])
-            this.props.addAdmin(adduserdata.username, adduserdata.password, adduserdata.confirmpassword, rolename[0].description, adduserdata.userrole[0])
+            this.props.addAdmin(adduserdata.username, adduserdata.password,adduserdata.confirmpassword,
+                this.state.roleValue[0],this.state.checkedkeys+",","DISTRICT")//TODO 类型写死 测试，待修改
             this.hideAddModal()
         }
     }
@@ -152,6 +161,17 @@ class AdminList extends React.Component {
     confirmLock() {
         var tmparr = this.props.listItems.filter(item => item.id == this.state.lockuserid)
         this.props.lockAdmin(tmparr[0].id)
+    }
+
+    roleChange(role) {
+        console.log(role)
+        var tmparr = this.props.roleItems.filter(item => item.id == role[0])
+        if(tmparr[0].resourceIds){
+            this.setState({
+                checkedkeys:tmparr[0].resourceIds.split(","),
+                roleValue: role
+            })
+        }
     }
 
     confirmDelete() {
@@ -268,8 +288,8 @@ class AdminList extends React.Component {
             key: 'username',
         }, {
             title: '角色',
-            dataIndex: 'role',
-            key: 'role',
+            dataIndex: 'roleNames',
+            key: 'roleNames',
         }, {
             title: '是否锁定',
             dataIndex: 'iflockedString',
@@ -311,12 +331,13 @@ class AdminList extends React.Component {
             data.push({
                 key: this.props.listItems[i].id,
                 username: this.props.listItems[i].username,
-                role: this.props.listItems[i].roleIds,
+                roleIds: this.props.listItems[i].roleIds,
+                roleNames: this.props.listItems[i].roleNames,
                 iflockedString: `${this.props.listItems[i].locked ? '是' : '否'}`,
                 iflocked: this.props.listItems[i].locked,
-                createtime: this.props.listItems[i].createtimeString,
+                createtime: this.props.listItems[i].createtime,
                 createtimedetail: this.props.listItems[i].createtime,
-                updatetime: this.props.listItems[i].updatetimeString,
+                updatetime: this.props.listItems[i].updatetime,
                 updatetimedetail: this.props.listItems[i].updatetime,
                 creater: this.props.listItems[i].createUserName,
                 lastupdater: this.props.listItems[i].updateuserName
@@ -329,10 +350,10 @@ class AdminList extends React.Component {
             {
                 options.push({
                     value: this.props.roleItems[i].id,
-                    label: this.props.roleItems[i].description
+                    label: this.props.roleItems[i].description,
                 })
             }
-        }
+        }  
 
         const defaultroleids = options.filter(item => item.label == this.state.defaultrole)
 
@@ -375,6 +396,49 @@ class AdminList extends React.Component {
         });
         const searchCls = classNames({
             'ant-search-input': true
+        });
+
+        var menus = this.props.menuItems.map((item) => {
+            return (
+                <TreeNode title={<span>{item.name}</span>} key={item.id}>
+                    {
+                        item.childMenus.map((node2) =>
+                        {
+                            if(node2.childMenus.length>0){
+                                return(
+                                    <TreeNode title={node2.name} key={node2.id}>
+                                        {
+                                            node2.childMenus.map(node3 => {
+                                                if(node3.childMenus.length>0){
+                                                    return(
+                                                        <TreeNode title={node3.name} key={node3.id}>
+                                                            {
+                                                                node3.childMenus.map(node4=>{
+                                                                    return(
+                                                                        <TreeNode title={node4.name} key={node4.id}/>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TreeNode>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <TreeNode title={node3.name} key={node3.id}/>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </TreeNode>
+                                )
+                            }else{
+                                return (
+                                    <TreeNode title={node2.name} key={node2.id}/>
+                                )
+                            }
+                        })
+                    }
+                </TreeNode>
+            )
         });
 
         return (
@@ -442,7 +506,20 @@ class AdminList extends React.Component {
                         <FormItem
                             {...formItemLayout}
                             label="管理员角色： ">
-                            <Cascader {...roleProps} options={options} allowClear={false}/>
+                            <Cascader {...roleProps} options={options} allowClear={false}
+                              placeholder="请选择角色" onChange={that.roleChange.bind(that)}
+                              value={this.state.roleValue}/>
+                        </FormItem>
+                        <FormItem {...formItemLayout} label="自定义菜单">
+                            <div style= {{height:'300px',overflow:'overlay',border: '1px solid #d5f1fd',
+                                    borderRadius: '6px'}}>
+                                <Tree showLine multiple checkable
+                                      selectedKeys={[]}
+                                      checkedKeys={this.state.checkedkeys}
+                                      onCheck={this.onCheck.bind(this)}>
+                                    {menus}
+                                </Tree>
+                            </div>
                         </FormItem>
                     </Form>
                 </Modal>
@@ -458,6 +535,7 @@ function mapStateToProps(state) {
     return {
         listItems: state.admin.listItems,
         roleItems: state.rolelist.roleItems,
+        menuItems: state.menu.items,
         triggerStateChange: state.admin.triggerStateChange,
         filterText: state.keyword.filterText,
         totals: state.admin.totals

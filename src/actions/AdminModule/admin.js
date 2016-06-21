@@ -4,13 +4,13 @@ export const GET_ALL_ADMIN_SUCCESS = 'GET_ALL_ADMIN_SUCCESS';
 export const GET_ALL_ADMIN_ERROR = 'GET_ALL_ADMIN_ERROR';
 export const RESET_ADMINLIST = 'RESET_ADMINLIST';
 export const LOCK_ADMIN_SUCCESS = 'LOCK_ADMIN_SUCCESS';
-export const RESET_TRIGGER = 'RESET_TRIGGER'
-export const EDIT_ADMIN_SUCCESS = 'EDIT_ADMIN_SUCCESS'
-export const EDIT_ADMIN_ERROR = 'EDIT_ADMIN_ERROR'
-export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS'
-export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR'
-export const DELETE_ADMIN_SUCCESS = 'DELETE_ADMIN_SUCCESS'
-export const DELETE_ADMIN_ERROR = 'DELETE_ADMIN_ERROR'
+export const RESET_TRIGGER = 'RESET_TRIGGER';
+export const EDIT_ADMIN_SUCCESS = 'EDIT_ADMIN_SUCCESS';
+export const EDIT_ADMIN_ERROR = 'EDIT_ADMIN_ERROR';
+export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS';
+export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR';
+export const DELETE_ADMIN_SUCCESS = 'DELETE_ADMIN_SUCCESS';
+export const DELETE_ADMIN_ERROR = 'DELETE_ADMIN_ERROR';
 
 export function getAllAdmin(page,pagesize,username) {
     return {
@@ -46,7 +46,7 @@ export function lockAdmin(userid) {
     }
 }
 
-export function editAdmin(userid, username, roleid) {
+export function editAdmin(userid, username, roleid, resourceIds) {
 	return {
         type: 'EDIT_ADMIN',
         payload: {
@@ -54,14 +54,15 @@ export function editAdmin(userid, username, roleid) {
                 data: {
                     adminUserName: username,
                     roleId: roleid,
-                    userId: userid
+                    userId: userid,
+                    resourceIds: resourceIds
                 }
             })
         }
     }
 }
 
-export function addAdmin(adminUserName, adminPassword, adminSurePassword, roles,roleId) {
+export function addAdmin(adminUserName, adminPassword, adminSurePassword, roleId, resourceIds) {
     return {
         type: 'ADD_ADMIN',
         payload: {
@@ -69,9 +70,9 @@ export function addAdmin(adminUserName, adminPassword, adminSurePassword, roles,
                 data: {
                     adminUserName:adminUserName,
                     adminPassword:adminPassword,
-                    adminSurePassword:adminSurePassword,
-                    roles:roles,
-                    roleId:roleId
+                    adminSurePassword:adminSurePassword,                    
+                    roleId:roleId,
+                    resourceIds: resourceIds
                 }
             })
         }
