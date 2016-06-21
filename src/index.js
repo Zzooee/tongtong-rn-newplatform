@@ -16,7 +16,7 @@ import RoleList from './containers/AdminModule/RoleList';
 import OrganizationList from './containers/AdminModule/OrganizationList';
 import DictionaryTypeList from './containers/AdminModule/DictionaryTypeList';
 import DictionaryList from './containers/AdminModule/DictionaryList';
-
+import KindergartenList from './containers/KindergartenModule/KindergartenList';
 import level2 from './containers/Level2Module/level2'
 import level3 from './containers/Level2Module/level3'
 import level32 from './containers/Level2Module/level32'
@@ -47,7 +47,7 @@ ReactDOM.render(
         <div>
             <Router history={history}>
                 <Route path="/" onEnter={validate}>
-                    <IndexRedirect to="home"/>
+                    <IndexRedirect to="login"/>
                     <Route component={Blank}>
                         <Route path="home" component={Home}/>
                         <Route path="adminList" component={AdminList}/>
@@ -63,7 +63,12 @@ ReactDOM.render(
                             <Route path="dictionaryList" component={DictionaryList}/>
                         </Route>
                     </Route>
-
+                    <Route path="/kindergarten">
+                        <IndexRedirect to="kindergartenList"/>
+                        <Route component={App}>
+                            <Route path="kindergartenList" component={KindergartenList}></Route>
+                        </Route>
+                    </Route>
 
                     <Route path='/level2'>
                         <IndexRedirect to="level4"/>
