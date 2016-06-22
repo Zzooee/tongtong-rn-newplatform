@@ -20,9 +20,18 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        const {actions} = this.props;
+        const {actions,menuErrors} = this.props;
         actions.fetchProfile();
-        actions.getAllMenu()
+        actions.getAllMenu();
+        if (menuErrors !== null){
+            console.log('menuErrors2==='+menuErrors)
+            this.context.router.replace('/login');
+
+            notification.error({
+                message: '加载遇到问题',
+                description: menuErrors
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -88,7 +97,7 @@ class App extends React.Component {
                 actions.updateNavPath([tmppath2[0].fourthpath,tmppath2[0].thirdpath,tmppath2[0].menupath,tmppath2[0].subpath], tmppath2[0].fourthpath);
             }
         }
-        
+
     }
 
     render() {
@@ -147,7 +156,8 @@ const mapStateToProps = (state) => {
     const {user} = state;
     return {
         user: user ? user : null,
-        items: state.menu.items
+        items: state.menu.items,
+        menuErrors: state.menu.menuErrors
     };
 };
 

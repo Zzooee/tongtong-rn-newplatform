@@ -20,9 +20,18 @@ class Blank extends React.Component {
     }
 
     componentWillMount() {
-        const {actions} = this.props;
+        const {actions, menuErrors} = this.props;
         actions.fetchProfile();
-        actions.getAllMenu()
+        actions.getAllMenu();
+        if (menuErrors !== null){
+            console.log('menuErrors2==='+menuErrors)
+            this.context.router.replace('/login');
+
+            notification.error({
+                message: '加载遇到问题',
+                description: menuErrors
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -118,7 +127,8 @@ const mapStateToProps = (state) => {
     const {user} = state;
     return {
         user: user ? user : null,
-        items: state.menu.items
+        items: state.menu.items,
+        menuErrors: state.menu.menuErrors
     };
 };
 

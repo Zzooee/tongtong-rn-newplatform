@@ -81,7 +81,7 @@ export default function menu(state = initialState, action = {}) {
                     }
                 })
             }
-            
+
             return Object.assign({}, state, {
                 currentIndex: action.payload.key * 1,
                 navpath: navpath
