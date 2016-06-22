@@ -5,14 +5,13 @@ import {Affix, Row, Col,notification} from 'antd';
 
 import NavPath from '../components/NavPath'
 import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import Footer from '../components/Footer'
 import {fetchProfile, logout} from '../actions/user';
 import {getAllMenu, updateNavPath} from '../actions/menu'
 
 import 'antd/dist/antd.less';
 import 'simditor/styles/simditor.css';
-import '../main.less';
+import '../views/main.less';
 
 class Blank extends React.Component {
     constructor(props) {

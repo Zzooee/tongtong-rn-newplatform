@@ -3,7 +3,7 @@ import {Form, Input, Button, Row, Col, notification, Checkbox} from 'antd'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {login,logout} from '../actions/user'
-import authUtils from '../utils/auth';
+import authUtils from '../common/utils/auth';
 
 const FormItem = Form.Item;
 

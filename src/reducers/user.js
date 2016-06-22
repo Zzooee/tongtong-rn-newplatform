@@ -8,7 +8,7 @@ import {
     CHANGE_PWD_SUCCESS,
     CHANGE_PWD_ERROR
 } from '../actions/user';
-import authUtils from '../utils/auth';
+import authUtils from '../common/utils/auth';
 
 let initialState = {
     user: null,

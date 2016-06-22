@@ -1,4 +1,4 @@
-import api from '../../api'
+import api from '../../common/api'
 
 export const GET_ALL_ADMIN_SUCCESS = 'GET_ALL_ADMIN_SUCCESS';
 export const GET_ALL_ADMIN_ERROR = 'GET_ALL_ADMIN_ERROR';

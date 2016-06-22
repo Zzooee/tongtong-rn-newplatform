@@ -17,16 +17,14 @@ import OrganizationList from './containers/AdminModule/OrganizationList';
 import DictionaryTypeList from './containers/AdminModule/DictionaryTypeList';
 import DictionaryList from './containers/AdminModule/DictionaryList';
 import KindergartenList from './containers/KindergartenModule/KindergartenList';
-import level2 from './containers/Level2Module/level2'
 import level3 from './containers/Level2Module/level3'
 import level32 from './containers/Level2Module/level32'
 import level4 from './containers/Level2Module/level4'
 
-import ChildModule from './containers/Module1/ChildModule'
 import BasicInfo from './containers/Module1/BasicInfo'
 
-import {getCookie} from './utils/index';
-import authUtils from './utils/auth';
+import {getCookie} from './common/utils/index';
+import authUtils from './common/utils/auth';
 
 
 const history = useRouterHistory(createHistory)({basename: ''})

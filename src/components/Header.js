@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col, Icon, Menu, Dropdown, Modal, Form, Input, message} from 'antd'
 import {logout, changePwd, resetTrigger} from '../actions/user'
-import authUtils from '../utils/auth';
+import authUtils from '../common/utils/auth';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Link} from 'react-router';
@@ -133,7 +133,7 @@ class Header extends React.Component {
 
         return (
             <div style={styles.header}>
-                <div style={styles.banner}><img src='../imgs/favicon.ico' style={styles.ico}/>普陀区幼儿健康与安全管理平台</div>
+                <div style={styles.banner}><img src='../views/imgs/favicon.ico' style={styles.ico}/>普陀区幼儿健康与安全管理平台</div>
                 <Menu className="header-menu" mode="horizontal" onClick={this.menuClickHandler.bind(this)}>
                     <SubMenu title={<span><Icon type="user" />{user.user}</span>} >
                         <Menu.Item style={styles.item} key="changepwd">修改密码</Menu.Item>

@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware, combineReducers,compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import promiseMiddleware from '../middlewares/promiseMiddleware'
+import promiseMiddleware from '../common/middlewares/promiseMiddleware';
 
 import user from '../reducers/user';
 import menu from '../reducers/menu';
@@ -13,7 +13,7 @@ import keyword from '../reducers/keyword';
 import organization from '../reducers/AdminModule/organization'
 import kindergarten from '../reducers/KindergartenModule/kindergarten';
 
-import DevTools from '../utils/DevTools';
+import DevTools from '../common/utils/DevTools';
 
 const reducer = combineReducers({user, menu, admin,dictionaryType,dictionary,rolelist, resource, keyword, organization, kindergarten});
 

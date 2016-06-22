@@ -1,4 +1,4 @@
-import api from '../../api'
+import api from '../../common/api'
 
 export const GET_ALL_Dictionary_SUCCESS = 'GET_ALL_Dictionary_SUCCESS';
 export const GET_ALL_Dictionary_ERROR = 'GET_ALL_Dictionary_ERROR';

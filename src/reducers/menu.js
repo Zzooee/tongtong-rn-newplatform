@@ -1,13 +1,10 @@
 import _ from 'lodash';
 
 import {
-    GET_ALL_MENU,
     GET_ALL_MENU_SUCCESS,
     GET_ALL_MENU_ERROR,
     UPDATE_NAVPATH
 } from '../actions/menu';
-
-import authUtils from '../utils/auth';
 
 let initialState = {
     currentIndex: 0,

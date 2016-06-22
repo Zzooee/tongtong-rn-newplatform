@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react'
 import {Breadcrumb} from 'antd'
 import {connect} from 'react-redux'
-import {Link} from 'react-router';
 
 var styles={
     margin: '28px 24px -17px'

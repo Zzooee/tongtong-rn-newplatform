@@ -9,20 +9,6 @@ export const EDIT_KINDERGARTEN_SUCCESS = 'EDIT_KINDERGARTEN_SUCCESS';
 export const EDIT_KINDERGARTEN_ERROR = 'EDIT_KINDERGARTEN_ERROR';
 export const RESET_TRIGGER = 'RESET_TRIGGER';
 
-export function getKindergartenAll( page, pagesize, name ) {
-    return {
-        type: 'GET_KINDERGARTEN_LIST',
-        payload: {
-            promise: api.postForm('/web/kindergarten/selectKindergartenAll.tj',{
-                data: {
-                    page: page,
-                    pagesize: pagesize,
-                    name: name
-                }
-            })
-        }
-    }
-}
 
 export function resetKindergartenALL() {
     return {

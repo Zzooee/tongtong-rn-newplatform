@@ -1,4 +1,4 @@
-import api from '../../api';
+import api from '../../common/api'
 
 export const GET_KINDERGARTEN_CLASS_SUCCESS = 'GET_KINDERGARTEN_CLASS_SUCCESS';
 export const GET_KINDERGARTEN_CLASS_ERROR = 'GET_KINDERGARTEN_CLASS_ERROR';
@@ -11,3 +11,14 @@ export const RESET_TRIGGER = 'RESET_TRIGGER';
 
 
 
+export function resetKindergartenALL() {
+    return {
+        type: 'RESET_KINDERGARTEN_ALL'
+    }
+}
+
+export function resetTrigger() {
+    return {
+        type: 'RESET_TRIGGER'
+    }
+}

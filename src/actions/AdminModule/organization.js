@@ -1,4 +1,4 @@
-import api from '../../api'
+import api from '../../common/api'
 
 export const GET_ORGANIZATION_LIST_SUCCESS = 'GET_ORGANIZATION_LIST_SUCCESS';
 export const GET_ORGANIZATION_LIST_ERROR = 'GET_ORGANIZATION_LIST_ERROR';

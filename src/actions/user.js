@@ -1,4 +1,4 @@
-import api from '../api'
+import api from '../common/api';
 
 export const FETCH_PROFILE = 'FETCH_PROFILE';
 export const LOGIN_PENDING = 'LOGIN_PENDING';

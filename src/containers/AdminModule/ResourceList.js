@@ -6,9 +6,9 @@ import {getAllResource, resetResourceList, addResource, editResource, resetTrigg
 import {updateKeyword} from '../../actions/keyword';
 import {getOrganizationList} from '../../actions/AdminModule/organization';
 import {getAllMenu} from '../../actions/menu'
-import authUtils from '../../utils/auth';
+import authUtils from '../../common/utils/auth';
 import classNames from 'classnames';
-import api from '../../api';
+import api from '../../common/api';
 const InputGroup = Input.Group;
 const RadioGroup = Radio.Group;
 

@@ -12,7 +12,7 @@ import {getAllMenu, updateNavPath, resetNavPath} from '../actions/menu'
 
 import 'antd/dist/antd.less';
 import 'simditor/styles/simditor.css';
-import '../main.less';
+import '../views/main.less';
 
 class App extends React.Component {
     constructor(props) {

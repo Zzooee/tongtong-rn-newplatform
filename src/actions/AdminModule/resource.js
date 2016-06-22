@@ -1,4 +1,4 @@
-import api from '../../api'
+import api from '../../common/api'
 
 export const GET_ALL_RESOURCE_SUCCESS = 'GET_ALL_RESOURCE_SUCCESS';
 export const GET_ALL_RESOURCE_ERROR = 'GET_ALL_RESOURCE_ERROR'
