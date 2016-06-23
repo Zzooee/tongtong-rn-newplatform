@@ -16,14 +16,14 @@ import RoleList from './containers/AdminModule/RoleList';
 import OrganizationList from './containers/AdminModule/OrganizationList';
 import DictionaryTypeList from './containers/AdminModule/DictionaryTypeList';
 import DictionaryList from './containers/AdminModule/DictionaryList';
-import KindergartenList from './containers/KindergartenModule/KindergartenList';
 import SchedulerList from './containers/TaskModule/schedulerlist';
 import TgroupList from './containers/TaskModule/schedulergroup';
 import Ongoing from './containers/TaskModule/OngoingTask';
 import level3 from './containers/Level2Module/level3'
 import level32 from './containers/Level2Module/level32'
 import level4 from './containers/Level2Module/level4'
-
+import KindergartenList from './containers/KindergartenModule/KindergartenList';
+import KindergartenClassList from './containers/KindergartenModule/KindergartenClassList';
 import BasicInfo from './containers/Module1/BasicInfo'
 
 import {getCookie} from './common/utils/index';
@@ -58,6 +58,8 @@ ReactDOM.render(
                         <Route path="schedulerlist" component={SchedulerList}/>
                         <Route path="schedulergroup" component={TgroupList}/>
                         <Route path="ongoingtask" component={Ongoing}/>
+                        <Route path="kindergartenList" component={KindergartenList}/>
+                        <Route path="kindergartenClassList" component={KindergartenClassList}/>
                     </Route>
                     <Route path="login" component={Login}/>
                     <Route path='/dictionary'>

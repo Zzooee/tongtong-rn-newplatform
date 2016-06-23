@@ -17,7 +17,7 @@ const initialState = {
     totals: 0
 }
 
-export default function dictionary(state = initialState, action = {}) {
+export default function kindergartenClass(state = initialState, action = {}) {
     if(action.payload && action.payload.body && action.payload.body.status){
         var  status = action.payload.body.status;
         var  errorMessage = action.payload.body.errorMessage;
