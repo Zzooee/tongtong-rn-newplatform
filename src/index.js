@@ -17,6 +17,9 @@ import OrganizationList from './containers/AdminModule/OrganizationList';
 import DictionaryTypeList from './containers/AdminModule/DictionaryTypeList';
 import DictionaryList from './containers/AdminModule/DictionaryList';
 import KindergartenList from './containers/KindergartenModule/KindergartenList';
+import SchedulerList from './containers/TaskModule/schedulerlist';
+import TgroupList from './containers/TaskModule/schedulergroup';
+import Ongoing from './containers/TaskModule/OngoingTask';
 import level3 from './containers/Level2Module/level3'
 import level32 from './containers/Level2Module/level32'
 import level4 from './containers/Level2Module/level4'
@@ -52,6 +55,9 @@ ReactDOM.render(
                         <Route path="resourcelist" component={ResourceList}/>
                         <Route path="rolelist" component={RoleList}/>
                         <Route path="organizationlist" component={OrganizationList}/>
+                        <Route path="schedulerlist" component={SchedulerList}/>
+                        <Route path="schedulergroup" component={TgroupList}/>
+                        <Route path="ongoingtask" component={Ongoing}/>
                     </Route>
                     <Route path="login" component={Login}/>
                     <Route path='/dictionary'>

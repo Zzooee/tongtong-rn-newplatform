@@ -19,24 +19,14 @@ class Blank extends React.Component {
     }
 
     componentWillMount() {
-        const {actions, menuErrors} = this.props;
-        actions.fetchProfile();
+        const {actions} = this.props;
         actions.getAllMenu();
-        if (menuErrors !== null){
-            console.log('menuErrors2==='+menuErrors)
-            this.context.router.replace('/login');
-
-            notification.error({
-                message: '加载遇到问题',
-                description: menuErrors
-            });
-        }
+        actions.fetchProfile();
     }
 
     componentWillReceiveProps(nextProps) {
         const isLoggingOut = nextProps.user.loggingOut
         const user = nextProps.user.user
-
         if (!isLoggingOut && !user) {
             notification.success({
                 message: '您已注销',
@@ -47,7 +37,15 @@ class Blank extends React.Component {
     }
 
     componentDidUpdate() {
-        const {actions} = this.props;
+        const {actions,menuErrors} = this.props;
+        if (menuErrors !== null){
+            this.context.router.replace('/login');
+
+            notification.error({
+                message: '加载遇到问题',
+                description: menuErrors
+            });
+        }
         var tmparr = this.props.items.map((item) => {
             return (
                 item.childMenus.map((node) => {
