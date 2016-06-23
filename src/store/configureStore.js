@@ -15,11 +15,10 @@ import kindergarten from '../reducers/KindergartenModule/kindergarten';
 import scheduler from '../reducers/TaskModule/scheduler';
 import tgroup from '../reducers/TaskModule/group';
 import ongoing from '../reducers/TaskModule/ongoing'
-import bizserver from '../reducers/bizserver';
 
 import DevTools from '../common/utils/DevTools';
 
-const reducer = combineReducers({user, menu, admin,dictionaryType,dictionary,rolelist, resource, keyword, organization, kindergarten, scheduler, tgroup, ongoing, bizserver});
+const reducer = combineReducers({user, menu, admin,dictionaryType,dictionary,rolelist, resource, keyword, organization, kindergarten, scheduler, tgroup, ongoing});
 
 const enhancer = compose(
     // Middleware you want to use in development:

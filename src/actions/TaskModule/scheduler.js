@@ -30,7 +30,7 @@ export function resetSchedulerList() {
     }
 }
 
-export function editScheduler(id, groupId, bizServerId, taskName, taskType, taskDesc, taskCron, enable) {
+export function editScheduler(id, groupId, taskName, taskType, taskDesc, taskCron, enable) {
 	return {
         type: 'EDIT_SCHEDULER',
         payload: {
@@ -38,7 +38,6 @@ export function editScheduler(id, groupId, bizServerId, taskName, taskType, task
                 data: {
                   id: id,
                   groupId : groupId,
-                  bizServerId : bizServerId,
                   taskName : taskName,
                   taskType : taskType,
                   taskDesc : taskDesc,
@@ -50,14 +49,13 @@ export function editScheduler(id, groupId, bizServerId, taskName, taskType, task
     }
 }
 
-export function addScheduler(groupId, bizServerId, taskName, taskType, taskDesc, taskCron, enable) {
+export function addScheduler(groupId, taskName, taskType, taskDesc, taskCron, enable) {
     return {
         type: 'ADD_SCHEDULER',
         payload: {
             promise: api.postForm('/web/scheduler/insertOne.tj',{
                 data: {
                   groupId: groupId,
-                  bizServerId : bizServerId,
                   taskName : taskName,
                   taskType : taskType,
                   taskDesc : taskDesc,

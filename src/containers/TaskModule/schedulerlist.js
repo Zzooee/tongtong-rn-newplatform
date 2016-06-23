@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import api from '../../common/api'
 import {Table, Button, Input, Form, Modal, Cascader, Popconfirm, message, Icon, Radio, Upload} from 'antd'
 import {getAllScheduler, resetSchedulerList, resetTrigger, editScheduler, addScheduler} from '../../actions/TaskModule/scheduler'
-import {getAllBizserver} from '../../actions/bizserver'
 import {getAllTgroup} from '../../actions/TaskModule/group'
 import {updateKeyword} from '../../actions/keyword'
 import authUtils from '../../common/utils/auth';
@@ -49,14 +48,12 @@ class SchedulerList extends React.Component {
             currentpage: 1,
             pagesize: 10,
             defaultgroupid: [],
-            defaultserverid: [],
             defaulttaskname: '',
             defaulttasktype: '',
             defaulttaskdesc: '',
             defaulttaskcron: '',
             defaulttaskenable: 1
         })
-        this.props.getAllBizserver(),
         this.props.getAllTgroup()
     }
 
@@ -88,7 +85,6 @@ class SchedulerList extends React.Component {
             editvisible: true,
             edittarget: tmparr[0].id,
             defaultgroupid: [tmparr[0].groupId],
-            defaultserverid: [tmparr[0].bizServerId],
             defaulttaskname: tmparr[0].taskName,
             defaulttasktype: tmparr[0].taskType,
             defaulttaskdesc: tmparr[0].taskDesc,
@@ -101,8 +97,6 @@ class SchedulerList extends React.Component {
         var edittaskdata = this.props.form.getFieldsValue()
         if (!edittaskdata.taskgroupid) {
             message.error('请选择组名称', 2)
-        } else if (!edittaskdata.servername) {
-            message.error('请选择服务节点', 2)
         } else if (!edittaskdata.taskname) {
             message.error('请填写任务名称', 2)
         } else if (!edittaskdata.tasktype) {
@@ -115,7 +109,7 @@ class SchedulerList extends React.Component {
             message.error('请选择是否启用', 2)
         } else {
             this.hideEditModal();
-            this.props.editScheduler(this.state.edittarget, edittaskdata.taskgroupid[0], edittaskdata.servername[0], edittaskdata.taskname, edittaskdata.tasktype, edittaskdata.taskdesc, edittaskdata.taskcron, edittaskdata.taskenable)
+            this.props.editScheduler(this.state.edittarget, edittaskdata.taskgroupid[0], edittaskdata.taskname, edittaskdata.tasktype, edittaskdata.taskdesc, edittaskdata.taskcron, edittaskdata.taskenable)
         }
     }
 
@@ -123,7 +117,6 @@ class SchedulerList extends React.Component {
         this.setState({
             editvisible: false,
             defaultgroupid: [],
-            defaultserverid: [],
             defaulttaskname: '',
             defaulttasktype: '',
             defaulttaskdesc: '',
@@ -136,7 +129,6 @@ class SchedulerList extends React.Component {
         this.setState({
             addvisible: true,
             defaultgroupid: [],
-            defaultserverid: [],
             defaulttaskname: '',
             defaulttasktype: '',
             defaulttaskdesc: '',
@@ -149,8 +141,6 @@ class SchedulerList extends React.Component {
         var addtaskdata = this.props.form.getFieldsValue()
         if (!addtaskdata.taskgroupid) {
             message.error('请选择组名称', 2)
-        } else if (!addtaskdata.servername) {
-            message.error('请选择服务节点', 2)
         } else if (!addtaskdata.taskname) {
             message.error('请填写任务名称', 2)
         } else if (!addtaskdata.tasktype) {
@@ -162,7 +152,7 @@ class SchedulerList extends React.Component {
         } else if (addtaskdata.taskenable == undefined){
             message.error('请选择是否启用', 2)
         } else {
-            this.props.addScheduler(addtaskdata.taskgroupid[0], addtaskdata.servername[0], addtaskdata.taskname, addtaskdata.tasktype, addtaskdata.taskdesc, addtaskdata.taskcron, addtaskdata.taskenable)
+            this.props.addScheduler(addtaskdata.taskgroupid[0], addtaskdata.taskname, addtaskdata.tasktype, addtaskdata.taskdesc, addtaskdata.taskcron, addtaskdata.taskenable)
             this.hideAddModal()
         }
     }
@@ -254,10 +244,6 @@ class SchedulerList extends React.Component {
             dataIndex: 'groupinfo',
             key: 'groupinfo'
         }, {
-            title: '服务节点',
-            dataIndex: 'bizServerId',
-            key: 'bizServerId'
-        }, {
             title: '任务名称',
             dataIndex: 'taskName',
             key: 'taskName',
@@ -320,12 +306,10 @@ class SchedulerList extends React.Component {
 
         for (let i = 0; i < this.props.schedulerList.length; i++)
         {
-            let bizserverinfo = this.props.bizserverItems.filter(item => item.id == this.props.schedulerList[i].bizServerId)
             let groupinfo = this.props.tgroupList.filter(item => item.id == this.props.schedulerList[i].groupId)
             data.push({
                 key: this.props.schedulerList[i].id,
                 groupinfo: groupinfo[0].groupName,
-                bizServerId: bizserverinfo[0].name,
                 taskName: this.props.schedulerList[i].taskName,
                 enableString: `${this.props.schedulerList[i].enable == 1 ? '启用' : '停用'}`,
                 enable: this.props.schedulerList[i].enable,
@@ -343,17 +327,6 @@ class SchedulerList extends React.Component {
 
         const {getFieldProps, getFieldError, isFieldValidating} = this.props.form;
 
-        var options = []
-        if(this.props.bizserverItems) {
-            for (let i=0; i<this.props.bizserverItems.length; i++)
-            {
-                options.push({
-                    value: this.props.bizserverItems[i].id,
-                    label: this.props.bizserverItems[i].name
-                })
-            }
-        }
-
         var options2 = []
         if(this.props.tgroupList) {
             for (let i=0; i<this.props.tgroupList.length; i++)
@@ -370,13 +343,6 @@ class SchedulerList extends React.Component {
                 { required: true, type: 'array' }
             ],
             initialValue: this.state.defaultgroupid
-        });
-
-        const serverProps = getFieldProps('servername', {
-            rules: [
-                { required: true, type: 'array' }
-            ],
-            initialValue: this.state.defaultserverid
         });
 
         const taskNameProps = getFieldProps('taskname', {
@@ -446,13 +412,6 @@ class SchedulerList extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="服务节点："
-                            help=" "
-                            validateStatus="success">
-                            <Cascader {...serverProps} options={options} allowClear={false}/>
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
                             label="任务名称："
                             help=" "
                             validateStatus="success"
@@ -505,13 +464,6 @@ class SchedulerList extends React.Component {
                             help=" "
                             validateStatus="success">
                             <Cascader {...groupidProps} options={options2} allowClear={false}/>
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="服务节点："
-                            help=" "
-                            validateStatus="success">
-                            <Cascader {...serverProps} options={options} allowClear={false}/>
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
@@ -573,7 +525,6 @@ function mapStateToProps(state) {
         triggerStateChange: state.scheduler.triggerStateChange,
         filterText: state.keyword.filterText,
         totals: state.scheduler.totals,
-        bizserverItems: state.bizserver.bizserverItems,
         tgroupList: state.tgroup.tgroupList
     }
 }
@@ -586,7 +537,6 @@ function mapDispatchToProps(dispatch) {
         addScheduler: bindActionCreators(addScheduler, dispatch),
         resetTrigger: bindActionCreators(resetTrigger, dispatch),
         updateKeyword: bindActionCreators(updateKeyword, dispatch),
-        getAllBizserver: bindActionCreators(getAllBizserver, dispatch),
         getAllTgroup: bindActionCreators(getAllTgroup, dispatch)
     }
 }
