@@ -193,16 +193,13 @@ class DictionaryTypeList extends React.Component {
         const data = [];
         const rowSelection = {
             onChange(selectedRowKeys, selectedRows) {
-              console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
               that.setState({
                 selectedRows: selectedRows
               })
             },
             onSelect(record, selected, selectedRows) {
-              console.log(record, selected, selectedRows);
             },
             onSelectAll(selected, selectedRows, changeRows) {
-              console.log(selected, selectedRows, changeRows);
             }
         };
 
@@ -218,22 +215,21 @@ class DictionaryTypeList extends React.Component {
                     currentpage: current,
                     pagesize: pageSize
                 });
-                that.props.getAllAdmin(current,pageSize,that.props.filterText)
+                that.props.getAllDictionary(current,pageSize,that.props.filterText)
             },
             onChange(current) {
-                console.log('Current: ', current);
                 that.setState({
                     currentpage: current
                 });
-                that.props.getAllAdmin(current,that.state.pagesize,that.props.filterText)
+                that.props.getAllDictionary(current,that.state.pagesize,that.props.filterText)
             }
         };
 
         const columns = [
         {
             title: '类型',
-            dataIndex: 'dicTypeId',
-            key: 'dicTypeId'
+            dataIndex: 'dicTypeName',
+            key: 'dicTypeName'
         },{
             title: 'key',
             dataIndex: 'keys',
@@ -286,7 +282,8 @@ class DictionaryTypeList extends React.Component {
                 creater: this.props.listItems[i].createUserName,
                 createtime: this.props.listItems[i].createtime,
                 lastupdater: this.props.listItems[i].updateUserName,
-                updatetime: this.props.listItems[i].updatetime
+                updatetime: this.props.listItems[i].updatetime,
+                dicTypeName: this.props.listItems[i].dicTypeName
             })
         }
 
@@ -324,12 +321,12 @@ class DictionaryTypeList extends React.Component {
             initialValue: [defaultoptionsType[0] ? defaultoptionsType[0].value : '']
         });
         const dicParentId = getFieldProps('parentId', {
-            validate: [{
+            /*validate: [{
                 rules: [
                     { required: false, type: "array",message: '请选择父级'}
                 ],
                 trigger: ['onBlur','onChange'],
-            }],
+            }],*/
             initialValue: [defaultoptionsparentId[0] ? defaultoptionsparentId[0].value : '']
         });
         const valueProps = getFieldProps('value', {
