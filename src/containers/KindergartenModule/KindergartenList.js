@@ -131,10 +131,7 @@ class KindergartenList extends React.Component {
         if (!kindergartendata.name) {
             message.error('请输入幼儿园名称', 2)
             return;
-        } else if (!kindergartendata.pinyin) {
-            message.error('请输入幼儿园拼音', 2)
-            return;
-        } else if (!kindergartendata.level) {
+        }  else if (!kindergartendata.level) {
             message.error('请输入幼儿园级别', 2)
             return;
         }
@@ -160,7 +157,7 @@ class KindergartenList extends React.Component {
             message.error('请输入幼儿园班级升级步骤', 2)
             return;
         } else {
-            this.props.addKindergarten(kindergartendata.name, kindergartendata.pinyin, kindergartendata.level, kindergartendata.nature,
+            this.props.addKindergarten(kindergartendata.name, kindergartendata.level, kindergartendata.nature,
                 kindergartendata.type, kindergartendata.phone, kindergartendata.street, kindergartendata.address, kindergartendata.status,
                 kindergartendata.upGradeStep)
             this.hideAddModal()
@@ -180,7 +177,6 @@ class KindergartenList extends React.Component {
         this.setState({
             edittarget: tmparr[0].id,
             defaultname: tmparr[0].name,
-            defaultpinyin: tmparr[0].pinyin,
             defaultlevel: tmparr[0].level,
             defaultnature: tmparr[0].nature,
             defaulttype: tmparr[0].type,
@@ -197,9 +193,6 @@ class KindergartenList extends React.Component {
         var kindergartendata = this.props.form.getFieldsValue()
         if (!kindergartendata.name) {
             message.error('请输入幼儿园名称', 2)
-            return;
-        } else if (!kindergartendata.pinyin) {
-            message.error('请输入幼儿园拼音', 2)
             return;
         } else if (!kindergartendata.level) {
             message.error('请输入幼儿园级别', 2)
@@ -227,7 +220,7 @@ class KindergartenList extends React.Component {
             message.error('请输入幼儿园班级升级步骤', 2)
             return;
         } else {
-            this.props.editKindergarten(this.state.edittarget,kindergartendata.name, kindergartendata.pinyin, kindergartendata.level, kindergartendata.nature,
+            this.props.editKindergarten(this.state.edittarget,kindergartendata.name, kindergartendata.level, kindergartendata.nature,
                 kindergartendata.type, kindergartendata.phone, kindergartendata.street, kindergartendata.address, kindergartendata.status,
                 kindergartendata.upGradeStep)
             this.hideEditModal()
@@ -238,7 +231,6 @@ class KindergartenList extends React.Component {
         this.setState({
             editvisible: false,
             defaultname: '',
-            defaultpinyin: '',
             defaultlevel: '',
             defaultnature: '',
             defaulttype: '',
@@ -488,14 +480,6 @@ class KindergartenList extends React.Component {
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
-                            label="拼音："
-                            help=" "
-                            validateStatus="success"
-                        >
-                            <Input {...pinyinProps} placeholder="请输入拼音"></Input>
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
                             label="级别："
                             help=" "
                             validateStatus="success"
@@ -572,14 +556,6 @@ class KindergartenList extends React.Component {
                             validateStatus="success"
                         >
                             <Input {...nameProps} placeholder="请输入名称"></Input>
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="拼音："
-                            help=" "
-                            validateStatus="success"
-                        >
-                            <Input {...pinyinProps} placeholder="请输入拼音"></Input>
                         </FormItem>
                         <FormItem
                             {...formItemLayout}

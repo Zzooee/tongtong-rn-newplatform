@@ -23,13 +23,12 @@ export function selectKindergartenClassAll(page,pagesize){
     }
 }
 
-export function addKindergartenClass(id,className,kindergartenId,gradeId,sortNo){
+export function addKindergartenClass(className,kindergartenId,gradeId,sortNo){
     return {
         type:'ADD_KINDERGARTEN_CLASS',
         payload:{
             promise:api.postForm('/web/kindergartenClass/add.tj;',{
                 data:{
-                    id:id,
                     className:className,
                     kindergartenId:kindergartenId,
                     gradeId:gradeId,

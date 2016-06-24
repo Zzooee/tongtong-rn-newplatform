@@ -28,14 +28,13 @@ export function selectKindergartenAll(page,pagesize){
 }
 
 
-export function addKindergarten(name,pinyin,level,nature,type,phone,street,address,status,upGradeStep){
+export function addKindergarten(name,level,nature,type,phone,street,address,status,upGradeStep){
     return {
         type:'ADD_ALL_Kindergarten',
         payload:{
             promise:api.postForm('/web/kindergarten/add.tj;',{
                 data:{
                     name:name,
-                    pinyin:pinyin,
                     level:level,
                     nature:nature,
                     type:type,
@@ -51,7 +50,7 @@ export function addKindergarten(name,pinyin,level,nature,type,phone,street,addre
 }
 
 
-export function editKindergarten(id,name,pinyin,level,nature,type,phone,street,address,status,upGradeStep){
+export function editKindergarten(id,name,level,nature,type,phone,street,address,status,upGradeStep){
     return {
         type:'EDIT_ALL_Kindergarten',
         payload:{
@@ -59,7 +58,6 @@ export function editKindergarten(id,name,pinyin,level,nature,type,phone,street,a
                 data:{
                     id:id,
                     name:name,
-                    pinyin:pinyin,
                     level:level,
                     nature:nature,
                     type:type,
