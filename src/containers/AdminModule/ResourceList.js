@@ -79,7 +79,7 @@ class ResourceList extends React.Component {
 
     editResourceInfo(item) {
         var tmpid = (item.target.id * 1 - 2048)/666
-        var tmparr = this.state.initialitems.filter(item => item.id == tmpid)
+        var tmparr = this.props.resourceItems.filter(item => item.id == tmpid)
         var tmptypename = []
         var menuops = []
         if (tmparr[0].type == "一级菜单") {

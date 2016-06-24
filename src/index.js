@@ -87,12 +87,6 @@ ReactDOM.render(
                             <Route path="level3" component={level3}/>
                         </Route>
                     </Route>
-                    <Route path='/ChildModule'>
-                        <IndexRedirect to="BasicInfo"/>
-                        <Route component={App}>
-                            <Route path="basicinfo" component={BasicInfo}/>
-                        </Route>
-                    </Route>
                 </Route>
             </Router>
         </div>
