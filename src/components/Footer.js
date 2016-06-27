@@ -7,7 +7,7 @@ var styles = {
     fontSize: 12,
     color: '#999',
     backgroundColor: '#fff',
-    width: document.body.offsetWidth - 224,
+    width: document.body.offsetWidth - 240,
     position: 'absolute',
     bottom: 0
 }

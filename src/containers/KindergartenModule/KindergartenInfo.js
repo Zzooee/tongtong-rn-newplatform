@@ -28,7 +28,7 @@ var styles = {
 }
 
 
-class KindergartenList extends React.Component {
+class KindergartenInfo extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -629,7 +629,7 @@ class KindergartenList extends React.Component {
     }
 }
 
-KindergartenList = Form.create()(KindergartenList);
+KindergartenInfo = Form.create()(KindergartenInfo);
 
 function mapStateToProps(state) {
     return {
@@ -654,5 +654,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(KindergartenList)
-
+export default connect(mapStateToProps, mapDispatchToProps)(KindergartenInfo)

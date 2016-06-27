@@ -108,7 +108,7 @@ class App extends React.Component {
                 backgroundColor: '#fff'
             },
             antlayoutmain: {
-                marginLeft: 200,
+                marginLeft: 240,
                 minHeight: document.body.offsetHeight - 88
             },
             antlayoutcontainer: {

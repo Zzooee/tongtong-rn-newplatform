@@ -9,7 +9,7 @@ const SubMenu = Menu.SubMenu
 
 var styles = {
     sider: {
-        width: 200,
+        width: 240,
         backgroundColor: '#394555',
         position: 'absolute',
         overflow: 'auto',
@@ -152,20 +152,20 @@ class Sidebar extends React.Component {
                     if (node.childMenus.length == 0) {
                         return (
                             <Menu.Item key={'thd'+node.id}>
-                                <Link to={node.routeUrl}><Icon type={node.iconType} />{node.name}</Link>
+                                <Link to={node.routeUrl}>{node.name}</Link>
                             </Menu.Item>
                         )
                     } else {
                         return (
                             <SubMenu
                                 key={'thd'+node.id}
-                                title={<span><Icon type={node.iconType} />{node.name}</span>}
+                                title={<span>{node.name}</span>}
                                 onTitleClick={this.titleClickHandle.bind(this)}
                             >
                                 {node.childMenus.map((edon) => {
                                     return (
                                         <Menu.Item key={'frh'+edon.id}>
-                                            <Link to={edon.routeUrl}><Icon type={edon.iconType} />{edon.name}</Link>
+                                            <Link to={edon.routeUrl}>{edon.name}</Link>
                                         </Menu.Item>
                                     )
                                 })}
